@@ -17,21 +17,4 @@
 
 #pragma once
 
-// Menu items
-#define MENU_RESET            1
-#define MENU_LANGUAGE         2
-#define MENU_PRECISION        3
-#define MENU_UNITS            4
-#define MENU_TIMEZONE         5
-#define MENU_BACKLIGHT        6
-#define MENU_QUICKVIEW        7
-#define MENU_FLIP_SCREEN      8
-#define MENU_GPS              9
-// #define MENU_TRACK            10
-#define MENU_UPDATE           10
-#define MENU_VERSION          11
-#define MENU_FACTORY          12
-
-// Menu lists
-#define MENU_LIST_SETTINGS    0
-#define MENU_LIST_LANGUAGES   1
+void drawTrackLayout();

@@ -17,14 +17,14 @@
 
 #pragma once
 
-#define PIN_DISPLAY_CLOCK     13
-#define PIN_DISPLAY_DATA      12
+#define PIN_DISPLAY_SCL     22
+#define PIN_DISPLAY_SDA      21
 #define PIN_DISPLAY_CS        14
-#define PIN_DISPLAY_DC        25
-#define PIN_DISPLAY_RESET     27
+#define PIN_DISPLAY_DC        12
+#define PIN_DISPLAY_RESET     13
 #define PIN_BUTTON_PREV       32
 #define PIN_BUTTON_SELECT     33
-#define PIN_BUTTON_NEXT       34
+#define PIN_BUTTON_NEXT       27
 #define PIN_BACKLIGHT         26
 #define PIN_GPS_RX            16
 #define PIN_GPS_TX            17

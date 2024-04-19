@@ -20,18 +20,18 @@
 #include <FRAM_MB85RC_I2C.h>
 #include <languages.h>
 #include <units.h>
+#include <EEPROM.h>
+#include <Preferences.h>
+
+Preferences preferences;
 
 uint16_t mem_address = 0x025; // Define the memory address to write to
 
 // FRAM memory object
 FRAM_MB85RC_I2C fram_memory(0x50, false, 0, 4); // [chipAddress, writeProtectEnabled, wpPin, chipDensity (4, 16, 64, 128, 256, 512 or 1024)]
+
 ConfigI2C memory = {};
 TempConfig state = {};
-
-void initMemory() {
-  Wire.begin();
-  fram_memory.begin();
-}
 
 void initializeConfig() {
   memory.config.avgAccumulator = 0;
@@ -49,6 +49,7 @@ void initializeConfig() {
   memory.config.quickViewEnabled = true;
   memory.config.flipScreen = false;
   memory.config.memoryInitialized = true;
+  memory.config.saveInterval = 5;
 
   state.currentScreen = 0;
   state.menuCurrentSelection = 1;
@@ -83,6 +84,11 @@ void initializeConfig() {
   state.quickViewScreen = 0;
   state.currentUpdateStep = 1;
   state.updatingFirmware = 0;
+  state.currentTrackFile = "";
+  state.dateYear = 0;
+  state.dateMonth = 0;
+  state.dateDay = 0;
+
 }
 
 void resetConfig() {
@@ -91,29 +97,29 @@ void resetConfig() {
 }
 
 void loadConfig() {
-  initMemory();
-  byte arraySize = sizeof(Configuration);
-  byte readResult = fram_memory.readArray(mem_address, arraySize, memory.I2CPacket);
-
-  if (readResult == 0) {
-    // Check if memory has been initialized
-    if (memory.config.memoryInitialized != true) {
-      // Initialize memory for the first time
-      Serial.println(F("Memory has not been initialized. Setting memory structure..."));
-      resetConfig();
-      Serial.println(F("Reset performed - array loaded with initial memory"));
-    }
+  preferences.begin("tripcounter", true); // Start the Preferences library in RO-mode
+  size_t len = preferences.getBytesLength("config"); // Get the length of the config data
+  if (len != sizeof(Configuration)) {
+    // Memory has not been initialized. Setting memory structure...
+    Serial.println("Memory has not been initialized. Setting memory structure...");
+    resetConfig();
+    Serial.println("Reset performed - array loaded with initial memory");
   } else {
-    Serial.println(F("====================>>> ERROR READING MEMORY!"));
-    initializeConfig(); // Set config to an initial set of values
+    // Read the config from flash
+    Serial.println("Reading the config from flash");
+    preferences.getBytes("config", &memory.config, len);
+
+    // Print the entire config
+    Serial.println("Config:");
+    dumpConfig();
   }
+  preferences.end(); // Close the Preferences library
 }
 
 void saveConfig() {
-  byte arraySize = sizeof(Configuration);
-
-  // writeArray returns 0 if all went well. Otherwise, an error ocurred while writing to memory.
-  fram_memory.writeArray(mem_address, arraySize, memory.I2CPacket);
+  preferences.begin("tripcounter", false); // Start the Preferences library in RW-mode
+  preferences.putBytes("config", &memory.config, sizeof(Configuration)); // Write the config to flash
+  preferences.end(); // Close the Preferences library
 }
 
 void dumpConfig() {
@@ -148,6 +154,8 @@ void dumpConfig() {
   Serial.println(memory.config.flipScreen);
   Serial.print(F("memory.config.memoryInitialized: "));
   Serial.println(memory.config.memoryInitialized);
+  Serial.print(F("memory.config.saveInterval: "));
+  Serial.println(memory.config.saveInterval);
 }
 
 void dumpTempConfig() {
@@ -218,4 +226,6 @@ void dumpTempConfig() {
   Serial.println(state.currentUpdateStep);
   Serial.print(F("state.updatingFirmware: "));
   Serial.println(state.updatingFirmware);
+  Serial.print(F("state.currentTrackFile: "));
+  Serial.println(state.currentTrackFile.c_str());
 }

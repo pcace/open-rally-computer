@@ -148,6 +148,10 @@ void drawSettingsLayout() {
       state.currentScreen = SCREEN_UPDATE;
       break;
 
+    // case MENU_TRACK:
+    //   state.currentScreen = SCREEN_TRACK;
+    //   break;
+
     case MENU_VERSION:
       state.currentScreen = SCREEN_SPLASH;
       break;

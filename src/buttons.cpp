@@ -63,6 +63,9 @@ void onButtonSelectRelease(Button& btn, uint16_t duration) {
       state.currentScreen = SCREEN_HEADING;
       break;
     case SCREEN_HEADING:
+      state.currentScreen = SCREEN_TRACK;
+      break;
+    case SCREEN_TRACK:
       state.currentScreen = SCREEN_ODOMETER;
       break;
     case SCREEN_MENU:
@@ -109,6 +112,7 @@ void onButtonSelectPress(Button& btn) {
     case SCREEN_SPEED:
     case SCREEN_TIME:
     case SCREEN_HEADING:
+    case SCREEN_TRACK:
       state.selectButtonPressedSince = millis();
       break;
   }
@@ -128,6 +132,9 @@ void onButtonSelectHold(Button& btn, uint16_t duration) {
       state.currentScreen = SCREEN_MENU;
       break;
     case SCREEN_HEADING:
+      state.currentScreen = SCREEN_MENU;
+      break;
+    case SCREEN_TRACK:
       state.currentScreen = SCREEN_MENU;
       break;
     case SCREEN_MENU:
@@ -172,6 +179,7 @@ void onButtonNextPress(Button& btn) {
     case SCREEN_SPEED:
     case SCREEN_TIME:
     case SCREEN_HEADING:
+    case SCREEN_TRACK:
       // QuickView function for these screens
       if (memory.config.quickViewEnabled) {
         state.quickViewScreen = state.currentScreen;
@@ -229,6 +237,7 @@ void onButtonPrevPress(Button& btn) {
     case SCREEN_SPEED:
     case SCREEN_TIME:
     case SCREEN_HEADING:
+    case SCREEN_TRACK:
       // QuickView function for these screens
       if (memory.config.quickViewEnabled) {
         state.quickViewScreen = state.currentScreen;
@@ -275,7 +284,7 @@ void onButtonPrevRelease(Button& btn, uint16_t duration) {
 void initButtons() {
   pinMode(PIN_BUTTON_PREV, INPUT_PULLUP);
   pinMode(PIN_BUTTON_SELECT, INPUT_PULLUP);
-  pinMode(PIN_BUTTON_NEXT, INPUT_PULLUP); // This will not work. This pin does not have integrated pullup (https://github.com/espressif/arduino-esp32/issues/316)
+  pinMode(PIN_BUTTON_NEXT, INPUT_PULLUP);
 
   button_select.onPress(onButtonSelectPress);
   button_select.onRelease(onButtonSelectRelease);

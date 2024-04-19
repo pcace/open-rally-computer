@@ -23,7 +23,8 @@
 #define SCREEN_INPUT          3
 #define SCREEN_LANGUAGE       4
 #define SCREEN_GPS            5
-#define SCREEN_SPEED          6
-#define SCREEN_TIME           7
-#define SCREEN_HEADING        8
-#define SCREEN_UPDATE         9
+#define SCREEN_TRACK          6
+#define SCREEN_SPEED          7
+#define SCREEN_TIME           8
+#define SCREEN_HEADING        9
+#define SCREEN_UPDATE         10
