@@ -46,6 +46,8 @@ void setup(void)
 
   initButtons();
 
+  initializeSDCard();
+
   delay(2000);
   state.currentScreen = SCREEN_ODOMETER;
 }
@@ -67,11 +69,14 @@ void loop(void)
     previousMillis1s = currentMillis;
     updateGpsValues();
     // updateTemperature();
+    // Serial.print(F("GPS: "));
+    // Serial.println(state.gpsSatellites);
+
     saveConfig(); // Save all to FRAM / FLASH
   }
 
   // Tasks that occur every memory.saveInterval seconds
-  if (currentMillis - previousMillisSaveInterval > memory.config.saveInterval* 1000)
+  if (currentMillis - previousMillisSaveInterval > memory.config.saveInterval * 1000)
   {
     previousMillisSaveInterval = currentMillis;
     // save gps Data to SD Card

@@ -25,6 +25,71 @@
 #include <SD.h>
 #include <SPI.h>
 
+// Initialize SPI2 for SD card
+SPIClass SPI2(VSPI);
+void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
+{
+  Serial.printf("Listing directory: %s\n", dirname);
+
+  File root = fs.open(dirname);
+  if (!root)
+  {
+    Serial.println("Failed to open directory");
+    return;
+  }
+  if (!root.isDirectory())
+  {
+    Serial.println("Not a directory");
+    return;
+  }
+
+  File file = root.openNextFile();
+  while (file)
+  {
+    if (file.isDirectory())
+    {
+      Serial.print("  DIR : ");
+      Serial.println(file.name());
+      if (levels)
+      {
+        listDir(fs, file.name(), levels - 1);
+      }
+    }
+    else
+    {
+      Serial.print("  FILE: ");
+      Serial.print(file.name());
+      Serial.print("  SIZE: ");
+      Serial.println(file.size());
+      // Optionally print the file content
+      Serial.println("  CONTENT:");
+      while (file.available())
+      {
+        Serial.write(file.read());
+      }
+      Serial.println(); // Ensure there's a newline after file content
+    }
+    file = root.openNextFile();
+  }
+}
+
+void initializeSDCard()
+{
+  // Initialize SPI2 with custom pins
+  SPI2.begin(SD_CLK_PIN, SD_MISO_PIN, SD_MOSI_PIN, SD_CS_PIN);
+
+  // Initialize SD card with SPI2 settings
+  if (!SD.begin(SD_CS_PIN, SPI2))
+  {
+    Serial.println("Card Mount Failed");
+    return;
+  }
+  Serial.println("Card Mount Successful");
+
+  // List all files and their content after successful mount
+  listDir(SD, "/", 0); // Set levels to 0 if you don't want to list files in subdirectories recursively
+}
+
 void saveTrackToSD()
 {
   bool gpsFixExists = state.gpsFix == true;

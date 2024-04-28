@@ -56,7 +56,7 @@ void drawTrackLayout() {
   u8g2->drawStr(60, 36, String(state.currentSpeed).c_str());
   u8g2->drawStr(60, 42, String(state.gpsPrecision).c_str());
   u8g2->drawStr(60, 48, String(state.gpsDataAge).c_str());
-  u8g2->drawStr(60, 54, (String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".csv").c_str());
+  u8g2->drawStr(60, 54, state.currentTrackFile.c_str());
   if (state.gpsFix) {
     u8g2->drawStr(60, 60, "Yes");
   } else {

@@ -17,4 +17,6 @@
 
 #pragma once
 
+
+void initializeSDCard();
 void saveTrackToSD();

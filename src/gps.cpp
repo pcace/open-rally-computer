@@ -25,8 +25,6 @@
 #include <SD.h>
 #include <SPI.h>
 
-#define SD_CS_PIN 5 // Set this to the correct pin for your setup
-
 // GPS library
 TinyGPSPlus gps;
 
@@ -43,32 +41,10 @@ void initializeGps()
   Serial.println("Bluetooth stopped to avoid antenna interferences");
 
   // gps = new TinyGPSPlus();
-  SerialGPS.begin(9600, SERIAL_8N1, PIN_GPS_RX, PIN_GPS_TX);
+  SerialGPS.begin(115200, SERIAL_8N1, PIN_GPS_RX, PIN_GPS_TX);
   Serial.println("GPS Serial started");
 }
 
-void writeGpsDataToSdCard()
-{
-  String filename = String(gps.date.year()) + String(gps.date.month()) + String(gps.date.day()) + "_" + String(gps.time.hour()) + String(gps.time.second()) + ".csv";
-  File dataFile = SD.open(filename.c_str(), FILE_WRITE);
-
-  // If the file opened okay, write to it:
-  if (dataFile)
-  {
-    dataFile.print("Latitude,Longitude,Altitude\n");
-    dataFile.print(state.currentLatitude, 6);
-    dataFile.print(",");
-    dataFile.print(state.currentLongitude, 6);
-    dataFile.print(",");
-    dataFile.print(state.currentAltitude);
-    dataFile.close();
-  }
-  else
-  {
-    // if the file didn't open, print an error:
-    Serial.println("error opening " + filename);
-  }
-}
 
 void adjustTimeZone()
 {
@@ -133,11 +109,17 @@ void pollGpsModule()
   while (SerialGPS.available())
   {
     gps.encode(SerialGPS.read());
+
+    //DEBUG GPS RAW Data
+    // char c = SerialGPS.read();
+    // gps.encode(c);
+    // Serial.print(c); // Log the raw GPS data character
   }
 }
 
 void updateGpsValues()
 {
+
   if (!timeAlreadySet && state.gpsFix && gps.date.isValid() && gps.time.isValid())
   {
     adjustTimeZone();
