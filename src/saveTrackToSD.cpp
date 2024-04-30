@@ -100,7 +100,7 @@ void saveTrackToSD()
   {
     if (state.currentTrackFile == "")
     {
-      String filename = String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".csv";
+      String filename = "/" + String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".csv";
       state.currentTrackFile = filename.c_str();
       File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
       dataFile.print("lat");
