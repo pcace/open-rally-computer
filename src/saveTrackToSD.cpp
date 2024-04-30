@@ -98,39 +98,34 @@ void saveTrackToSD()
 
   if (gpsFixExists && dateIsValid && timeIsValid)
   {
-    // Push location data into state.currentTrackData
-    LocationData data = {state.currentLatitude, state.currentLongitude, state.currentAltitude, state.currentSpeed};
-    state.currentTrackData[state.currentTrackDataIndex++] = data;
-
-    // If there are more then memory.saveInterval elements in state.currentTrackData, write them to the SD card
-    // to save some read / writes...
-    bool shouldSaveToSD = state.currentTrackDataIndex >= memory.config.saveInterval;
-    if (shouldSaveToSD)
+    if (state.currentTrackFile == "")
     {
-      if (state.currentTrackFile == "")
-      {
-        String filename = String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".csv";
-        state.currentTrackFile = filename.c_str();
-      }
-
+      String filename = String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".csv";
+      state.currentTrackFile = filename.c_str();
       File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
-      if (dataFile)
-      {
-        for (int i = 0; i < state.currentTrackDataIndex; i++)
-        {
-          dataFile.print(state.currentTrackData[i].lat, 6);
-          dataFile.print(",");
-          dataFile.print(state.currentTrackData[i].lon, 6);
-          dataFile.print(",");
-          dataFile.print(state.currentTrackData[i].alt, 2);
-          dataFile.print(",");
-          dataFile.println(state.currentTrackData[i].speed, 2);
-        }
-        dataFile.close();
-      }
+      dataFile.print("lat");
+        dataFile.print(";");
+        dataFile.print("lon");
+        dataFile.print(";");
+        dataFile.print("alt");
+        dataFile.print(";");
+        dataFile.println("speed");
+    }
 
-      // Reset state.currentTrackData
-      state.currentTrackDataIndex = 0;
+    File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
+    if (dataFile)
+    {
+      for (int i = 0; i < state.currentTrackDataIndex; i++)
+      {
+        dataFile.print(state.currentTrackData[i].lat, 6);
+        dataFile.print(";");
+        dataFile.print(state.currentTrackData[i].lon, 6);
+        dataFile.print(";");
+        dataFile.print(state.currentTrackData[i].alt, 2);
+        dataFile.print(";");
+        dataFile.println(state.currentTrackData[i].speed, 2);
+      }
+      dataFile.close();
     }
   }
 }
