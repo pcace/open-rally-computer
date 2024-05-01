@@ -22,6 +22,7 @@
 #include <thermistor.h>
 #include <memory.h>
 #include <saveTrackToSD.h>
+#include <webserver.h>
 
 unsigned long previousMillis1s = 0;
 unsigned long previousMillisSaveInterval = 0;
@@ -47,6 +48,10 @@ void setup(void)
   initButtons();
 
   initializeSDCard();
+
+  initializeWifi();
+
+  initializeWebserver();
 
   delay(2000);
   state.currentScreen = SCREEN_ODOMETER;
