@@ -86,5 +86,6 @@ void loop(void)
     previousMillisSaveInterval = currentMillis;
     // save gps Data to SD Card
     saveTrackToSD();
+    saveTrackToGPX();
   }
 }
