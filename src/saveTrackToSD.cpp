@@ -62,11 +62,11 @@ void listDir(fs::FS &fs, const char *dirname, uint8_t levels)
       Serial.print("  SIZE: ");
       Serial.println(file.size());
       // Optionally print the file content
-      Serial.println("  CONTENT:");
-      while (file.available())
-      {
-        Serial.write(file.read());
-      }
+      // Serial.println("  CONTENT:");
+      // while (file.available())
+      // {
+      //   Serial.write(file.read());
+      // }
       Serial.println(); // Ensure there's a newline after file content
     }
     file = root.openNextFile();
@@ -164,7 +164,8 @@ void saveTrackToGPX()
     if (gpxFile)
     {
       // Move to the end of the file, then seek back to overwrite the closing tags
-      gpxFile.seek(gpxFile.size() - strlen("</trkseg></trk></gpx>\n"));
+      long position = gpxFile.size() - strlen("</trkseg></trk></gpx>") - 1; // Adjusted to account for newline characters
+      gpxFile.seek(position);
       // Write the new track point
       gpxFile.println("<trkpt lat=\"" + String(state.currentLatitude, 6) + "\" lon=\"" + String(state.currentLongitude, 6) + "\">");
       gpxFile.println("<ele>" + String(state.currentAltitude, 2) + "</ele>");
