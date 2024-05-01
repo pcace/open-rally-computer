@@ -99,7 +99,8 @@ struct TempConfig
   int currentUpdateStep;
   int updatingFirmware;
   std::string currentTrackFile;
-  LocationData currentTrackData[600];
+  std::string currentGPXFile;
+  // LocationData currentTrackData[600];
   int currentTrackDataIndex;
   int dateYear;
   int dateMonth;

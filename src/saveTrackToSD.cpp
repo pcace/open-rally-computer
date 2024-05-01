@@ -143,11 +143,11 @@ void saveTrackToGPX()
 
   if (gpsFixExists && dateIsValid && timeIsValid)
   {
-    if (state.currentTrackFile == "")
+    if (state.currentGPXFile == "")
     {
       String filename = "/" + String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".gpx";
-      state.currentTrackFile = filename.c_str();
-      File gpxFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
+      state.currentGPXFile = filename.c_str();
+      File gpxFile = SD.open(state.currentGPXFile.c_str(), FILE_WRITE);
       // Write GPX header and metadata
       gpxFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
       gpxFile.println("<gpx version=\"1.1\" creator=\"Open Rally Computer - https://github.com/pcace/open-rally-computer\">");
@@ -160,7 +160,7 @@ void saveTrackToGPX()
     }
 
     // Open the file to append data
-    File gpxFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
+    File gpxFile = SD.open(state.currentGPXFile.c_str(), FILE_WRITE);
     if (gpxFile)
     {
       // Move to the end of the file, then seek back to overwrite the closing tags

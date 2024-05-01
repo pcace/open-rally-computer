@@ -45,7 +45,6 @@ void initializeGps()
   Serial.println("GPS Serial started");
 }
 
-
 void adjustTimeZone()
 {
   // set the Time to the latest GPS reading

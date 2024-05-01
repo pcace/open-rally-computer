@@ -85,6 +85,7 @@ void initializeConfig() {
   state.currentUpdateStep = 1;
   state.updatingFirmware = 0;
   state.currentTrackFile = "";
+  state.currentGPXFile = "";
   state.dateYear = 0;
   state.dateMonth = 0;
   state.dateDay = 0;
@@ -228,4 +229,6 @@ void dumpTempConfig() {
   Serial.println(state.updatingFirmware);
   Serial.print(F("state.currentTrackFile: "));
   Serial.println(state.currentTrackFile.c_str());
+  Serial.print(F("state.currentTrackFile: "));
+  Serial.println(state.currentGPXFile.c_str());
 }
