@@ -103,29 +103,34 @@ void saveTrackToSD()
       String filename = "/" + String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".csv";
       state.currentTrackFile = filename.c_str();
       File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
+      dataFile.print("date");
+      dataFile.print(";");
+      dataFile.print("time");
+      dataFile.print(";");
       dataFile.print("lat");
-        dataFile.print(";");
-        dataFile.print("lon");
-        dataFile.print(";");
-        dataFile.print("alt");
-        dataFile.print(";");
-        dataFile.println("speed");
-    }
-
-    File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
-    if (dataFile)
-    {
-      for (int i = 0; i < state.currentTrackDataIndex; i++)
-      {
-        dataFile.print(state.currentTrackData[i].lat, 6);
-        dataFile.print(";");
-        dataFile.print(state.currentTrackData[i].lon, 6);
-        dataFile.print(";");
-        dataFile.print(state.currentTrackData[i].alt, 2);
-        dataFile.print(";");
-        dataFile.println(state.currentTrackData[i].speed, 2);
-      }
+      dataFile.print(";");
+      dataFile.print("lon");
+      dataFile.print(";");
+      dataFile.print("alt");
+      dataFile.print(";");
+      dataFile.println("speed");
       dataFile.close();
     }
+    File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_APPEND);
+    if (dataFile)
+    {
+      dataFile.print(String(state.dateYear) + "-" + String(state.dateMonth) + "-" + String(state.dateDay));
+      dataFile.print(";");
+      dataFile.print(String(state.timeHours) + ":" + String(state.timeMinutes) + ":" + String(state.timeSeconds));
+      dataFile.print(";");
+      dataFile.print(state.currentLatitude, 6);
+      dataFile.print(";");
+      dataFile.print(state.currentLongitude, 6);
+      dataFile.print(";");
+      dataFile.print(state.currentAltitude, 2);
+      dataFile.print(";");
+      dataFile.println(state.currentSpeed, 2);
+    }
+    dataFile.close();
   }
 }
