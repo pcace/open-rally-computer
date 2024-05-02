@@ -54,14 +54,6 @@ union ConfigI2C
 
 extern ConfigI2C memory; // Data to be written in memory
 
-struct LocationData
-{
-  double lat;
-  double lon;
-  double alt;
-  double speed;
-};
-
 // Storage for temporary config values
 struct TempConfig
 {
@@ -100,7 +92,6 @@ struct TempConfig
   int updatingFirmware;
   std::string currentTrackFile;
   std::string currentGPXFile;
-  // LocationData currentTrackData[600];
   int currentTrackDataIndex;
   int dateYear;
   int dateMonth;
