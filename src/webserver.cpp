@@ -6,6 +6,7 @@
 #include <FS.h>
 #include <SD.h>
 #include <SPI.h>
+#include <ElegantOTA.h>
 
 // Replace with your network credentials
 const char *ssid = "orc";
@@ -92,7 +93,8 @@ void initializeWebserver()
     server.serveStatic("/", SD, "/");
 
     // Route to handle file deletion
-    server.on("/delete", HTTP_POST, [](AsyncWebServerRequest *request) {
+    server.on("/delete", HTTP_POST, [](AsyncWebServerRequest *request)
+              {
         if (request->hasParam("file", true)) {
             AsyncWebParameter* p = request->getParam("file", true);
             String filePath = p->value();
@@ -102,8 +104,9 @@ void initializeWebserver()
                 Serial.println("Delete Failed");
             }
         }
-        request->redirect("/");
-    });
+        request->redirect("/"); });
+
+    ElegantOTA.begin(&server); // Start ElegantOTA
 
     // Start the web server
     server.begin();
