@@ -34,7 +34,6 @@ extern U8G2_SSD1309_128X64_NONAME0_F_4W_SW_SPI *u8g2; //note use of pointer, ext
 #define SCREEN_SPEED          7
 #define SCREEN_TIME           8
 #define SCREEN_HEADING        9
-#define SCREEN_UPDATE         10
 
 #define BACKLIGHT_MIN         0
 #define BACKLIGHT_MAX         10

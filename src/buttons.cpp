@@ -24,7 +24,6 @@
 #include <pins.h>
 #include <memory.h>
 #include <screens.h>
-#include <ota.h>
 #include <menu.h>
 #include <display.h>
 
@@ -76,28 +75,6 @@ void onButtonSelectRelease(Button& btn, uint16_t duration) {
       break;
     case SCREEN_LANGUAGE:
       state.menuLastCommand = U8X8_MSG_GPIO_MENU_SELECT;
-      break;
-    case SCREEN_UPDATE:
-      if (state.updatingFirmware == 1)
-        return void();
-
-      switch (state.currentUpdateStep) {
-        case UPDATE_START:
-          checkLatestVersion();
-          break;
-        case UPDATE_CONN_ERROR:
-        case UPDATE_UPGR_ERROR:
-        case UPDATE_FINISHED:
-          state.currentUpdateStep = UPDATE_START;
-
-          // Go back to menu
-          state.currentScreen = SCREEN_MENU;
-          break;
-
-        default:
-          checkLatestVersion();
-          break;
-      }
       break;
     case SCREEN_SPLASH:
       // Go back to menu
@@ -152,13 +129,6 @@ void onButtonSelectHold(Button& btn, uint16_t duration) {
     case SCREEN_GPS:
       state.currentScreen = SCREEN_ODOMETER;
       state.menuLastCommand = U8X8_MSG_GPIO_MENU_HOME;
-      break;
-    case SCREEN_UPDATE:
-      if (state.updatingFirmware == 1)
-        return;
-
-      state.menuLastCommand = U8X8_MSG_GPIO_MENU_HOME;
-      state.currentScreen = SCREEN_MENU;
       break;
   }
 }

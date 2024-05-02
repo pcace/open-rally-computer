@@ -81,7 +81,7 @@ struct TempConfig
   double currentLatitude;
   double currentLongitude;
   int gpsSatellites;
-  int currentAltitude;
+  double currentAltitude;
   int timeHours;
   int timeMinutes;
   int timeSeconds;

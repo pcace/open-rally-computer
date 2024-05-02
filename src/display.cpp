@@ -26,7 +26,6 @@
 #include <screens/language.h>
 #include <screens/gps.h>
 #include <screens/track.h>
-#include <screens/update.h>
 #include <pins.h>
 #include <memory.h>
 
@@ -95,9 +94,6 @@ void drawScreen(int index)
     break;
   case SCREEN_TRACK:
     drawTrackLayout();
-    break;
-  case SCREEN_UPDATE:
-    drawUpdateLayout();
     break;
   default:
     drawOdometerLayout();

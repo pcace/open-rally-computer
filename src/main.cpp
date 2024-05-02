@@ -23,6 +23,7 @@
 #include <memory.h>
 #include <saveTrackToSD.h>
 #include <webserver.h>
+#include <ElegantOTA.h>
 
 unsigned long previousMillis1s = 0;
 unsigned long previousMillisSaveInterval = 0;
@@ -59,6 +60,8 @@ void setup(void)
 
 void loop(void)
 {
+  ElegantOTA.loop();
+
   u8g2->clearBuffer();
 
   drawScreen(state.currentScreen);

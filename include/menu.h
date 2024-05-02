@@ -28,7 +28,6 @@
 #define MENU_FLIP_SCREEN      8
 #define MENU_GPS              9
 // #define MENU_TRACK            10
-#define MENU_UPDATE           10
 #define MENU_VERSION          11
 #define MENU_FACTORY          12
 

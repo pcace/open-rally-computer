@@ -27,4 +27,3 @@
 #define SCREEN_SPEED          7
 #define SCREEN_TIME           8
 #define SCREEN_HEADING        9
-#define SCREEN_UPDATE         10

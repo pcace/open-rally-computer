@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+
 #include <gps.h>
 #include <TinyGPS++.h>
 #include <TimeLib.h>
@@ -102,7 +103,15 @@ void saveTrackToSD()
   {
     if (state.currentTrackFile == "")
     {
-      String filename = "/" + String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".csv";
+      char dateYear[5], dateMonth[3], dateDay[3], timeHours[3], timeMinutes[3], timeSeconds[3];
+      sprintf(dateYear, "%04d", state.dateYear);
+      sprintf(dateMonth, "%02d", state.dateMonth);
+      sprintf(dateDay, "%02d", state.dateDay);
+      sprintf(timeHours, "%02d", state.timeHours);
+      sprintf(timeMinutes, "%02d", state.timeMinutes);
+      sprintf(timeSeconds, "%02d", state.timeSeconds);
+
+      String filename = "/" + String(dateYear) + String(dateMonth) + String(dateDay) + "_" + String(timeHours) + String(timeMinutes) + String(timeSeconds) + ".csv";
       state.currentTrackFile = filename.c_str();
       File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
       dataFile.print("date");
@@ -147,7 +156,14 @@ void saveTrackToGPX()
   {
     if (state.currentGPXFile == "")
     {
-      String filename = "/" + String(state.dateYear) + String(state.dateMonth) + String(state.dateDay) + "_" + String(state.timeHours) + String(state.timeMinutes) + String(state.timeSeconds) + ".gpx";
+      char dateYear[5], dateMonth[3], dateDay[3], timeHours[3], timeMinutes[3], timeSeconds[3];
+      sprintf(dateYear, "%04d", state.dateYear);
+      sprintf(dateMonth, "%02d", state.dateMonth);
+      sprintf(dateDay, "%02d", state.dateDay);
+      sprintf(timeHours, "%02d", state.timeHours);
+      sprintf(timeMinutes, "%02d", state.timeMinutes);
+      sprintf(timeSeconds, "%02d", state.timeSeconds);
+      String filename = "/" + String(dateYear) + String(dateMonth) + String(dateDay) + "_" + String(timeHours) + String(timeMinutes) + String(timeSeconds) + ".gpx";
       state.currentGPXFile = filename.c_str();
       File gpxFile = SD.open(state.currentGPXFile.c_str(), FILE_WRITE);
       // Write GPX header and metadata
