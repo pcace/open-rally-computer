@@ -189,7 +189,7 @@ void saveTrackToGPX()
       gpxFile.seek(intPosition);
       // Write the new track point
       gpxFile.println("<trkpt lat=\"" + String(state.currentLatitude, 6) + "\" lon=\"" + String(state.currentLongitude, 6) + "\">");
-      gpxFile.println("<ele>" + String(state.currentAltitude, 2) + "</ele>");
+      gpxFile.println("<ele>" + String(state.currentAltitude) + "</ele>");
       gpxFile.println("<time>" + String(dateYear) + "-" + String(dateMonth) + "-" + String(dateDay) + "T" + String(timeHours) + ":" + String(timeMinutes) + ":" + String(timeSeconds) + "Z</time>");
       gpxFile.println("</trkpt>");
       intPosition = gpxFile.position();

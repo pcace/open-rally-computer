@@ -54,7 +54,7 @@ void listFilesInDir(File dir, String &html, String path)
         else
         {
             // Create a link for each file
-            html += "<a href=\"" + entryPath + "\" download>" + entry.name() + "</a> <form action=\"/delete\" method=\"post\" style=\"display:inline;\"><button name=\"file\" value=\"" + entryPath + "\">Delete</button></form><br/>";
+            html += "<a href=\"" + entryPath + "\" download>" + entry.name() + "</a> <form action=\"/delete\" method=\"post\" style=\"display:inline;\" onsubmit=\"return confirm('Really delete?');\"><button name=\"file\" value=\"" + entryPath + "\">Delete</button></form><br/>";
         }
         entry.close();
     }
@@ -80,7 +80,7 @@ String generateStatusHTML()
     html += "<tr><td>state.currentLatitude</td><td>" + String(state.currentLatitude) + "</td></tr>";
     html += "<tr><td>state.currentLongitude</td><td>" + String(state.currentLongitude) + "</td></tr>";
     html += "<tr><td>state.gpsSatellites</td><td>" + String(state.gpsSatellites) + "</td></tr>";
-    html += "<tr><td>state.currentAltitude</td><td>" + String(state.currentAltitude) + "</td></tr>";
+    html += "<tr><td>state.currentAltitude</td><td>" + String(state.currentAltitude,2) + "</td></tr>";
     html += "<tr><td>state.timeHours</td><td>" + String(state.timeHours) + "</td></tr>";
     html += "<tr><td>state.timeMinutes</td><td>" + String(state.timeMinutes) + "</td></tr>";
     html += "<tr><td>state.timeSeconds</td><td>" + String(state.timeSeconds) + "</td></tr>";
@@ -99,11 +99,28 @@ String generateStatusHTML()
     html += "<tr><td>state.updatingFirmware</td><td>" + String(state.updatingFirmware) + "</td></tr>";
     html += "<tr><td>state.currentTrackFile</td><td>" + String(state.currentTrackFile.c_str()) + "</td></tr>";
     html += "<tr><td>state.currentGPXFile</td><td>" + String(state.currentGPXFile.c_str()) + "</td></tr>";
+  
+    html += "<tr><td>memory.config.avgAccumulator</td><td>" + String(memory.config.avgAccumulator) + "</td></tr>";
+    html += "<tr><td>memory.config.avgSamples</td><td>" + String(memory.config.avgSamples) + "</td></tr>";
+    html += "<tr><td>memory.config.language</td><td>" + String(memory.config.language) + "</td></tr>";
+    html += "<tr><td>memory.config.declAngle</td><td>" + String(memory.config.declAngle) + "</td></tr>";
+    html += "<tr><td>memory.config.tripPartial</td><td>" + String(memory.config.tripPartial) + "</td></tr>";
+    html += "<tr><td>memory.config.tripTotal</td><td>" + String(memory.config.tripTotal) + "</td></tr>";
+    html += "<tr><td>memory.config.tripTime</td><td>" + String(memory.config.tripTime) + "</td></tr>";
+    html += "<tr><td>memory.config.maxSpeed</td><td>" + String(memory.config.maxSpeed) + "</td></tr>";
+    html += "<tr><td>memory.config.units</td><td>" + String(memory.config.units) + "</td></tr>";
+    html += "<tr><td>memory.config.timeZone</td><td>" + String(memory.config.timeZone) + "</td></tr>";
+    html += "<tr><td>memory.config.backlight</td><td>" + String(memory.config.backlight) + "</td></tr>";
+    html += "<tr><td>memory.config.precision</td><td>" + String(memory.config.precision) + "</td></tr>";
+    html += "<tr><td>memory.config.quickViewEnabled</td><td>" + String(memory.config.quickViewEnabled) + "</td></tr>";
+    html += "<tr><td>memory.config.flipScreen</td><td>" + String(memory.config.flipScreen) + "</td></tr>";
+    html += "<tr><td>memory.config.memoryInitialized</td><td>" + String(memory.config.memoryInitialized) + "</td></tr>";
+    html += "<tr><td>memory.config.saveInterval</td><td>" + String(memory.config.saveInterval) + "</td></tr>";
+
 
     html += "</table></body></html>";
     return html;
 }
-
 
 String generateFileListHTML()
 {
