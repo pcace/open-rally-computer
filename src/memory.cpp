@@ -89,6 +89,7 @@ void initializeConfig() {
   state.dateYear = 0;
   state.dateMonth = 0;
   state.dateDay = 0;
+  state.voltage = 0;
 
 }
 
@@ -157,6 +158,8 @@ void dumpConfig() {
   Serial.println(memory.config.memoryInitialized);
   Serial.print(F("memory.config.saveInterval: "));
   Serial.println(memory.config.saveInterval);
+  Serial.print(F("memory.config.voltage: "));
+  Serial.println(memory.config.voltageDivider);
 }
 
 void dumpTempConfig() {
@@ -231,4 +234,6 @@ void dumpTempConfig() {
   Serial.println(state.currentTrackFile.c_str());
   Serial.print(F("state.currentTrackFile: "));
   Serial.println(state.currentGPXFile.c_str());
+  Serial.print(F("state.voltage: "));
+  Serial.println(state.voltage);
 }

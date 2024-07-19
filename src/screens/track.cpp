@@ -29,7 +29,7 @@ void drawTrackLayout() {
   u8g2->drawStr(0, 30, "TIME:");
   u8g2->drawStr(0, 36, "SPEED:");
   u8g2->drawStr(0, 42, "PREC:");
-  u8g2->drawStr(0, 48, "AGE:");
+  u8g2->drawStr(0, 48, "VOLT:");
   u8g2->drawStr(0, 54, "FILENAME.:");
   u8g2->drawStr(0, 60, "TRACK:");
 
@@ -55,7 +55,7 @@ void drawTrackLayout() {
   u8g2->drawStr(60, 30, String(currentTime).c_str());
   u8g2->drawStr(60, 36, String(state.currentSpeed).c_str());
   u8g2->drawStr(60, 42, String(state.gpsPrecision).c_str());
-  u8g2->drawStr(60, 48, String(state.gpsDataAge).c_str());
+  u8g2->drawStr(60, 48, String(state.voltage).c_str());
   u8g2->drawStr(60, 54, state.currentTrackFile.c_str());
   if (state.gpsFix) {
     u8g2->drawStr(60, 60, "Yes");

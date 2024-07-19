@@ -37,3 +37,6 @@
 #define SD_CLK_PIN            18
 #define SD_MOSI_PIN           23
 #define SD_MISO_PIN           19
+
+
+#define VOLTAGE_PIN           34

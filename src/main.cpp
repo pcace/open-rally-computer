@@ -24,6 +24,7 @@
 #include <saveTrackToSD.h>
 #include <webserver.h>
 #include <ElegantOTA.h>
+#include <voltage.h>
 
 
 unsigned long previousMillis1s = 0;
@@ -77,6 +78,7 @@ void loop(void)
   {
     previousMillis1s = currentMillis;
     updateGpsValues();
+    updateVoltageValues();
     // updateTemperature();
     // Serial.print(F("GPS: "));
     // Serial.println(state.gpsSatellites);
