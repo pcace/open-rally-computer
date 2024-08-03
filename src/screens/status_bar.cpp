@@ -100,7 +100,7 @@ void drawStatusBar()
     if (!state.sdMounted)
     {
       // Draw drawLayout
-      u8g2->drawHLine(24, 4, 15);
+      u8g2->drawHLine(24, 4, 10);
     }
 
     // -- Time

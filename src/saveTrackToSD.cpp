@@ -209,7 +209,6 @@ void savePOIToGPX()
     Serial.println("SD not initialized");
     return;
   }
-
   String filename = "/POI_" + String(state.currentLongitude, 6) + "_" + String(state.currentLatitude, 6) + ".gpx";
   File gpxFile = SD.open(filename.c_str(), FILE_WRITE);
 
@@ -219,18 +218,18 @@ void savePOIToGPX()
   gpxFile.println("<wpt lat=\"" + String(state.currentLatitude, 6) + "\" lon=\"" + String(state.currentLongitude, 6) + "\">");
   gpxFile.println("<ele>" + String(state.currentAltitude) + "</ele>");
   gpxFile.println("<name>" + String("POI") + "</name>");
-  
+
   // Add the current time
   char timeBuffer[25];
-  sprintf(timeBuffer, "%04d-%02d-%02dT%02d:%02d:%02dZ", 
-          state.dateYear, 
-          state.dateMonth, 
-          state.dateDay, 
-          state.timeHours, 
-          state.timeMinutes, 
+  sprintf(timeBuffer, "%04d-%02d-%02dT%02d:%02d:%02dZ",
+          state.dateYear,
+          state.dateMonth,
+          state.dateDay,
+          state.timeHours,
+          state.timeMinutes,
           state.timeSeconds);
   gpxFile.println("<time>" + String(timeBuffer) + "</time>");
-  
+
   gpxFile.println("</wpt>");
   gpxFile.println("</gpx>");
   gpxFile.close();

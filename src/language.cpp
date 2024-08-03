@@ -72,7 +72,7 @@ const char english[][36] = {
     "Lat",
     "Lon",
     "Latitude",
-    "Longitude"
+    "Longitude",
     "Altitude",
     "Alt"};
 
