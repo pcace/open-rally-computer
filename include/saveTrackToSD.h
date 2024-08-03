@@ -21,3 +21,4 @@
 void initializeSDCard();
 void saveTrackToSD();
 void saveTrackToGPX();
+void savePOIToGPX();

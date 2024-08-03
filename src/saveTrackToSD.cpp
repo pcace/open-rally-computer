@@ -84,9 +84,11 @@ void initializeSDCard()
   if (!SD.begin(SD_CS_PIN, SPI2))
   {
     Serial.println("Card Mount Failed");
+    state.sdMounted = false;
     return;
   }
   Serial.println("Card Mount Successful");
+  state.sdMounted = true;
 
   // List all files and their content after successful mount
   listDir(SD, "/", 0); // Set levels to 0 if you don't want to list files in subdirectories recursively
@@ -155,13 +157,13 @@ void saveTrackToGPX()
 
   if (gpsFixExists && dateIsValid && timeIsValid)
   {
-      char dateYear[5], dateMonth[3], dateDay[3], timeHours[3], timeMinutes[3], timeSeconds[3];
-      sprintf(dateYear, "%04d", state.dateYear);
-      sprintf(dateMonth, "%02d", state.dateMonth);
-      sprintf(dateDay, "%02d", state.dateDay);
-      sprintf(timeHours, "%02d", state.timeHours);
-      sprintf(timeMinutes, "%02d", state.timeMinutes);
-      sprintf(timeSeconds, "%02d", state.timeSeconds);
+    char dateYear[5], dateMonth[3], dateDay[3], timeHours[3], timeMinutes[3], timeSeconds[3];
+    sprintf(dateYear, "%04d", state.dateYear);
+    sprintf(dateMonth, "%02d", state.dateMonth);
+    sprintf(dateDay, "%02d", state.dateDay);
+    sprintf(timeHours, "%02d", state.timeHours);
+    sprintf(timeMinutes, "%02d", state.timeMinutes);
+    sprintf(timeSeconds, "%02d", state.timeSeconds);
 
     if (state.currentGPXFile == "")
     {
@@ -198,4 +200,40 @@ void saveTrackToGPX()
       gpxFile.close();
     }
   }
+}
+
+void savePOIToGPX()
+{
+  if (!SD.begin(SD_CS_PIN, SPI2))
+  {
+    Serial.println("SD not initialized");
+    return;
+  }
+
+  String filename = "/POI_" + String(state.currentLongitude, 6) + "_" + String(state.currentLatitude, 6) + ".gpx";
+  File gpxFile = SD.open(filename.c_str(), FILE_WRITE);
+
+  gpxFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+  gpxFile.println("<gpx xmlns=\"http://www.topografix.com/GPX/1/1\" creator=\"Open Rally Computer\" version=\"1.1\">");
+
+  gpxFile.println("<wpt lat=\"" + String(state.currentLatitude, 6) + "\" lon=\"" + String(state.currentLongitude, 6) + "\">");
+  gpxFile.println("<ele>" + String(state.currentAltitude) + "</ele>");
+  gpxFile.println("<name>" + String("POI") + "</name>");
+  
+  // Add the current time
+  char timeBuffer[25];
+  sprintf(timeBuffer, "%04d-%02d-%02dT%02d:%02d:%02dZ", 
+          state.dateYear, 
+          state.dateMonth, 
+          state.dateDay, 
+          state.timeHours, 
+          state.timeMinutes, 
+          state.timeSeconds);
+  gpxFile.println("<time>" + String(timeBuffer) + "</time>");
+  
+  gpxFile.println("</wpt>");
+  gpxFile.println("</gpx>");
+  gpxFile.close();
+
+  Serial.println("POI saved in " + filename);
 }

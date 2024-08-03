@@ -98,6 +98,7 @@ struct TempConfig
   int dateMonth;
   int dateDay;
   float voltage;
+  bool sdMounted;
 
 };
 

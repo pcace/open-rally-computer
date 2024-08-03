@@ -26,6 +26,7 @@
 #include <screens.h>
 #include <menu.h>
 #include <display.h>
+#include <saveTrackToSD.h>
 
 PushButton button_select = PushButton(PIN_BUTTON_SELECT, ENABLE_INTERNAL_PULLUP);
 PushButton button_next = PushButton(PIN_BUTTON_NEXT, ENABLE_INTERNAL_PULLUP);
@@ -112,7 +113,7 @@ void onButtonSelectHold(Button& btn, uint16_t duration) {
       state.currentScreen = SCREEN_MENU;
       break;
     case SCREEN_TRACK:
-      state.currentScreen = SCREEN_MENU;
+      savePOIToGPX();      
       break;
     case SCREEN_MENU:
       state.currentScreen = SCREEN_ODOMETER;

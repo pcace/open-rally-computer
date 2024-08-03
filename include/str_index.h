@@ -66,3 +66,10 @@
 #define STR_FLIP_SCREEN           46
 #define STR_FLIP_SCREEN_TITLE1    47
 #define STR_FLIP_SCREEN_TITLE2    48
+#define STR_SAVE_POI              49
+#define STR_LAT_SHRT              50
+#define STR_LON_SHRT              51
+#define STR_LAT_LONG              52
+#define STR_LON_LONG              53
+#define STR_ALT_LONG              54
+#define STR_ALT_SHRT              55

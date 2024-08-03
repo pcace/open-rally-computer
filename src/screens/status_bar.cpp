@@ -93,6 +93,16 @@ void drawStatusBar()
     u8g2->setFont(u8g2_font_blipfest_07_tn);
     u8g2->drawStr(118, 7, String(state.gpsSatellites).c_str());
 
+    // SD MOUNTED?
+    u8g2->setFont(u8g2_font_blipfest_07_tr);
+    u8g2->drawStr(25, 7, "SD");
+
+    if (!state.sdMounted)
+    {
+      // Draw drawLayout
+      u8g2->drawHLine(24, 4, 15);
+    }
+
     // -- Time
     String currentTime;
 
@@ -112,7 +122,7 @@ void drawStatusBar()
     String currentVoltage;
     currentVoltage = String(state.voltage) + "V"; // The "-" is a trick to get the perfect space for the "º"
     u8g2->setFont(u8g2_font_blipfest_07_tr);
-    u8g2->drawStr( 85, 7, currentVoltage.c_str());
+    u8g2->drawStr(85, 7, currentVoltage.c_str());
 
     // Return draw color to normality
     u8g2->setDrawColor(1);
@@ -126,7 +136,14 @@ void drawStatusBar()
       loadingStr = STR_RESET_DISTANCE;
       break;
     case SCREEN_SPEED:
+      loadingStr = STR_CONFIGURATION;
+      break;
+    case SCREEN_TRACK:
+      loadingStr = STR_SAVE_POI;
+      break;
     case SCREEN_TIME:
+      loadingStr = STR_CONFIGURATION;
+      break;
     case SCREEN_HEADING:
       loadingStr = STR_CONFIGURATION;
       break;
