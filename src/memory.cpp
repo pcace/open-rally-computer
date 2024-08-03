@@ -50,6 +50,7 @@ void initializeConfig() {
   memory.config.flipScreen = false;
   memory.config.memoryInitialized = true;
   memory.config.saveInterval = 5;
+  memory.config.voltageDivider = 11.25;
 
   state.currentScreen = 0;
   state.menuCurrentSelection = 1;

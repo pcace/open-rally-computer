@@ -43,7 +43,7 @@ struct Configuration
   unsigned int hour;
   unsigned int minute;
   unsigned int second;
-  unsigned int voltageDivider;
+  float voltageDivider;
 };
 
 // Define a struct joining Configuration to an array of bytes to be stored

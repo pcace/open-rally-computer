@@ -26,7 +26,6 @@
 #include <ElegantOTA.h>
 #include <voltage.h>
 
-
 unsigned long previousMillis1s = 0;
 unsigned long previousMillisSaveInterval = 0;
 unsigned long currentMillis = 0;
@@ -78,10 +77,7 @@ void loop(void)
   {
     previousMillis1s = currentMillis;
     updateGpsValues();
-    updateVoltageValues();
     // updateTemperature();
-    // Serial.print(F("GPS: "));
-    // Serial.println(state.gpsSatellites);
 
     saveConfig(); // Save all to FRAM / FLASH
   }
@@ -93,5 +89,6 @@ void loop(void)
     // save gps Data to SD Card
     saveTrackToSD();
     saveTrackToGPX();
+    updateVoltageValues();
   }
 }
