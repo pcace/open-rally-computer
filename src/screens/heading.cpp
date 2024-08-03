@@ -56,9 +56,9 @@ void drawHeadingLayout()
   u8g2->drawCircle(centerX, centerY, radius, U8G2_DRAW_ALL);
 
   // Draw the thick heading line
-  float headingAngle = state.currentHeading * PI / 180.0;                   // Convert degrees to radians
-  int lineX1 = centerX + (radius + arrowSize) * cos(headingAngle - PI / 2); // Adjust for line thickness
-  int lineY1 = centerY + (radius + arrowSize) * sin(headingAngle - PI / 2);
+  float headingAngle = state.currentHeading * PI / 180.0;                       // Convert degrees to radians
+  int lineX1 = centerX + (radius + arrowSize / 2) * cos(headingAngle - PI / 2); // Adjust for line thickness
+  int lineY1 = centerY + (radius + arrowSize / 2) * sin(headingAngle - PI / 2);
   int lineX2 = centerX + radius * cos(headingAngle - PI / 2); // Endpoint for arrowhead base
   int lineY2 = centerY + radius * sin(headingAngle - PI / 2);
   u8g2->drawLine(centerX, centerY, lineX1, lineY1);
