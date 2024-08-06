@@ -3,8 +3,12 @@
 An open source tripmaster for navigation rallies
 
 ![Open Rally Computer](img/orc.png?raw=true "Open Rally Computer")
+(after 2000km abuse...)
+
 
 ## Description
+
+This is a Fork of the Open Rally Computer project by Matías Godoy. The original project can be found [https://github.com/mattogodoy/open-rally-computer](https://github.com/mattogodoy/open-rally-computer)
 
 The Open Rally Computer (previously known as [Baja Pro](https://baja.matto.io/)) is a complete tripmaster for navigation rallies.
 
@@ -20,34 +24,37 @@ Some of its features are:
 - Compass (CAP heading)
 - Multiple languages and unit systems
 - Firmware updates over-the-air
+- GPX Track Logging to SD Card
+- POI Saving to SD Card
+- Display 12V input voltage
 
 The main goal of this project is to achieve a widely used open-source device that can be improved over time by ourselves, the pilots behind the roadbook.
 
-You can read a detailed writeup of the project here:
-
-- [English version](https://matto.io/open-sourcing-the-baja-pro/)
-- [Spanish version](https://matto.io/liberando-el-codigo-del-baja-pro/)
+Note: contrary to the original project, this fork does not use FRAM to store the data, but saves it to the SD Card. This makes it MUCH more UNreliable! So if you are planning to use this in a real rally, I would recommend to use the original project.
 
 ## Schematics and PCB
 
-You can find all the necessary information for fabricating your own copy of the Open Rally Computer PCB in the [pcb](docs/pcb) and [schematics](docs/schematics) folders of this repository.
+For a more sophisticated version of the ORC with Schematics and PCB, please go to the [Open Rally Computer](https://github.com/mattogodoy/open-rally-compute) repository of Matías Godoy.
 
-> **HELP NEEDED**: My knowledge in electronics is self-taught, so I'm sure there are quite a few improvements to be done in this department. If you know electronics and spot something that can be improved, please let me know by opening an issue.
+this fork here is a simplified version wireing the components directly to the used  [ESP32 DevKit V1](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/user-guide-devkitm-1.html). The mess of wires can be seen in the image below:
+![Inside](img/inside.png?raw=true "Inside")
 
-- Previous models of this device have been fabricated at [JLCPCB](https://jlcpcb.com/) with great results and very good prices.
-- The system I used to create the PCB was [EasyEDA](https://easyeda.com/). You can find files for the schematics and the PCB in their relative folders. There are also versions for Altium Designer.
+This includes: 
+- [SD Card Reader](https://de.aliexpress.com/item/1005004916894706.html?spm=a2g0o.productlist.main.5.3343518fkF5v0y&algo_pvid=5eb2e93c-0f10-4eba-950c-feb942e4dbdb&algo_exp_id=5eb2e93c-0f10-4eba-950c-feb942e4dbdb-2&pdp_npi=4%40dis%21EUR%212.62%211.84%21%21%212.80%211.96%21%40211b61b017229652803674429e49cb%2112000031008839838%21sea%21DE%212616847731%21X&curPageLogUid=NaunbedfPsp2&utparam-url=scene%3Asearch%7Cquery_from%3A) 
+- [OLED Display](https://www.amazon.de/dp/B07QJ4HPV9/ref=pe_27091401_487024491_TE_item)
+- [GPS Module LC86G](https://de.aliexpress.com/i/1005005605284683.html?gatewayAdapt=glo2deu)
+- [3 Buttons](https://www.amazon.de/Gebildet-wasserdichte-Drucktaster-Momentanen-Hervorstehend/dp/B08L49F7DV)
+- [Voltage Divider](https://www.ebay.de/itm/272641348205) 
 
-> **HELP NEEDED**: I'd like to port these schematics and PCB to KiCad, so we continue with the open source spirit :)
->
-> If you know your way around KiCad, I'd really appreciate some help porting this board.
+the pins are listet in `pins.h` (when changing them, make sure to take into account that two SPI ports are used (Display and SD Card Reader) and that the GPS Module uses the Serial Port 2)
 
-The bill of materials is located in a CSV file in the [bom](docs/pcb/bom) folder. If you find a missing component, please report it by opening an issue.
+## 3D Printed Case
+
+a very basic case can be found in the docs/stl folder. It is designed to be printed in two parts and stacked together.
 
 ## User manual
 
-You can find a PDF version of the User Manual in the [manual](docs/manual) folder.
-
-> **HELP NEEDED**: The user manual is currently only in Spanish and it still has a lot of Baja Pro branding that has to be changed to "Open Rally Computer". I'd really appreciate some help transcribing it to Markdown and translating it into other languages, being english the top priority right now.
+You can find the User Manual in the [manual](docs/manual) folder.
 
 ## Getting Started
 
@@ -62,7 +69,7 @@ This project has been developed using VSCode with the PlatformIO plugin, which i
 - Clone this repository
 
 ```bash
-git clone https://github.com/mattogodoy/open-rally-computer.git
+git clone https://github.com/pcace/open-rally-computer.git
 ```
 
 ### Building
@@ -84,6 +91,10 @@ Once the project compiles correctly in your computer, you are ready to flash it 
 2. Go to PlatformIO -> esp32dev -> General -> Upload
 3. PlatformIO should automatically detect the serial port where your ESP32 is connected, buld the project and flash it for you.
 
+## Flashing over-the-air
+
+Once the project is flashed into the device, you can update the firmware over-the-air. After the first flash the device will open up a wifi network called "ORC" (see webserver.cpp for PW). After connecting to this network you can use the [webinterface](http://192.168.4.1/update) to upload a new firmware.
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on the process for submitting pull requests.
@@ -94,13 +105,14 @@ Also read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details on the code of co
 
 We use [SemVer](http://semver.org/) for versioning.
 
-For a list of available versions, see the [tags on this repository](https://github.com/mattogodoy/open-rally-computer/tags).
+For a list of available versions, see the [tags on this repository](https://github.com/pcace/open-rally-computer/tags).
 
 ## Authors
 
-- **Matías Godoy** - [matto.io](https://matto.io/)
+- Original Repository:  **Matías Godoy** - [matto.io](https://matto.io/)
+- this Fork: **pcace** - [pcace](https://johannes-froelich.de)
 
-See also the list of [contributors](https://github.com/mattogodoy/open-rally-computer/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/pcace/open-rally-computer/graphs/contributors) who participated in this project.
 
 ## TO-DO
 
@@ -108,9 +120,6 @@ There are a few things I'd like to do in order to improve this project and its r
 
 - [x] Build, upload and tag Version 1.0.0 binary as a release
 - [x] Translate user manual to english
-- [ ] Port the PCB files to KiCad
-- [ ] Create proper documentation in GitHub Wiki
-- [ ] Create Continuous Integration using GitHub Actions
 
 ## License
 
