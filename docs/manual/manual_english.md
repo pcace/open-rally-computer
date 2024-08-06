@@ -154,7 +154,7 @@ In this screen, the remote control buttons fulfill the following functions:
 - **Up**: If the QuickView functionality is enabled, displays the Odometer screen while holding down the button.
 - **Down**: If QuickView functionality is enabled, displays the Odometer screen while holding down the button.
 - **Selection**: If pressed briefly, it switches to the next screen. Long press accesses the configuration screen.
-![Compass page with 2d Representation](../../img/compass.png?raw=true "Compass page with 2d Representation")
+![Compass page with 2d Representation](../../img/compass.png?raw=true "Compass page with 2d Representation"){width=200 height=200}
 
 ### Position
 
