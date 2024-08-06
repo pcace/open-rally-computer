@@ -2,7 +2,8 @@
 
 An open source tripmaster for navigation rallies
 
-![Open Rally Computer](img/orc.png?raw=true "Open Rally Computer"){width=200 height=100}
+![ORC](./img/orc.png?raw=true "Inside"){width=200 height=100}
+
 (after 2000km abuse...)
 
 
