@@ -22,12 +22,13 @@ Some of its features are:
 - Average speed
 - Max speed
 - Trip time
-- Compass (CAP heading)
 - Multiple languages and unit systems
-- Firmware updates over-the-air
+### changes / additions in this fork: 
+- Compass (CAP heading) with 2D Compass Rose
+- Firmware updates over-the-air using webinterface (ElegantOTA)
 - GPX Track Logging to SD Card
 - POI Saving to SD Card
-- Display 12V input voltage
+- Display 12V input voltage display
 
 The main goal of this project is to achieve a widely used open-source device that can be improved over time by ourselves, the pilots behind the roadbook.
 
