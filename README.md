@@ -4,9 +4,8 @@ An open source tripmaster for navigation rallies
 
 ![ORC](./img/orc2.png?raw=true "ORC")
 ![ORC](./img/orc.png?raw=true "ORC")
+
 (after 2000km abuse...)
-
-
 
 ## Description
 
