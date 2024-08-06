@@ -38,7 +38,7 @@ For a more sophisticated version of the ORC with Schematics and PCB, please go t
 
 this fork here is a simplified version wireing the components directly to the used  [ESP32 DevKit V1](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/hw-reference/esp32/user-guide-devkitm-1.html). The mess of wires can be seen in the image below:
 
-![Inside](img/inside.png?raw=true "Inside"){width=200 height=100}
+![Inside](./img/inside.png?raw=true "Inside"){width=200 height=100}
 
 This includes: 
 - [SD Card Reader](https://de.aliexpress.com/item/1005004916894706.html?spm=a2g0o.productlist.main.5.3343518fkF5v0y&algo_pvid=5eb2e93c-0f10-4eba-950c-feb942e4dbdb&algo_exp_id=5eb2e93c-0f10-4eba-950c-feb942e4dbdb-2&pdp_npi=4%40dis%21EUR%212.62%211.84%21%21%212.80%211.96%21%40211b61b017229652803674429e49cb%2112000031008839838%21sea%21DE%212616847731%21X&curPageLogUid=NaunbedfPsp2&utparam-url=scene%3Asearch%7Cquery_from%3A) 
