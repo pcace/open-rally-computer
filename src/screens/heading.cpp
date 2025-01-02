@@ -57,19 +57,19 @@ void drawHeadingLayout()
 
   // Draw the thick heading line
   float headingAngle = state.currentHeading * PI / 180.0;                       // Convert degrees to radians
-  int lineX1 = centerX + (radius + arrowSize / 2) * cos(headingAngle + PI / 2); // Adjust for line thickness
-  int lineY1 = centerY + (radius + arrowSize / 2) * sin(headingAngle + PI / 2);
-  int lineX2 = centerX + radius * cos(headingAngle + PI / 2); // Endpoint for arrowhead base
-  int lineY2 = centerY + radius * sin(headingAngle + PI / 2);
+  int lineX1 = centerX + (radius + arrowSize / 2) * cos(headingAngle - PI / 2); // Adjust for line thickness
+  int lineY1 = centerY + (radius + arrowSize / 2) * sin(headingAngle - PI / 2);
+  int lineX2 = centerX + radius * cos(headingAngle - PI / 2); // Endpoint for arrowhead base
+  int lineY2 = centerY + radius * sin(headingAngle - PI / 2);
   u8g2->drawLine(centerX, centerY, lineX1, lineY1);
   u8g2->drawLine(centerX + 1, centerY, lineX1 + 1, lineY1); // Make line thicker
   u8g2->drawLine(centerX - 1, centerY, lineX1 - 1, lineY1); // Make line thicker
 
   // Draw arrowhead
-  int arrowX1 = lineX2 + arrowSize * cos(headingAngle + PI / 2 - PI / 6);
-  int arrowY1 = lineY2 + arrowSize * sin(headingAngle + PI / 2 - PI / 6);
-  int arrowX2 = lineX2 + arrowSize * cos(headingAngle + PI / 2 + PI / 6);
-  int arrowY2 = lineY2 + arrowSize * sin(headingAngle + PI / 2 + PI / 6);
+  int arrowX1 = lineX2 + arrowSize * cos(headingAngle - PI / 2 - PI / 6);
+  int arrowY1 = lineY2 + arrowSize * sin(headingAngle - PI / 2 - PI / 6);
+  int arrowX2 = lineX2 + arrowSize * cos(headingAngle - PI / 2 + PI / 6);
+  int arrowY2 = lineY2 + arrowSize * sin(headingAngle - PI / 2 + PI / 6);
 
   u8g2->drawLine(lineX2, lineY2, arrowX1, arrowY1);   // Left side of arrowhead
   u8g2->drawLine(lineX2, lineY2, arrowX2, arrowY2);   // Right side of arrowhead
