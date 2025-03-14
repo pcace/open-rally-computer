@@ -1,4 +1,3 @@
-
 #include <time.h>
 #include <WiFi.h>
 #include <AsyncTCP.h>
@@ -8,6 +7,7 @@
 #include <SPI.h>
 #include <ElegantOTA.h>
 #include <memory.h>
+
 // Replace with your network credentials
 const char *ssid = "orc";
 const char *password = "12345678";
@@ -149,8 +149,53 @@ String generateFileListHTML(int page)
     }
     html += "<a href=\"/?page=" + String(page + 1) + "\">Next</a>";
 
+    // Add delete all button
+    html += "<br/><br/>";
+    html += "<form action=\"/deleteAll\" method=\"post\" onsubmit=\"return confirm('Really delete all files?');\">";
+    html += "<button>Delete All Files</button></form>";
+
     html += "</body></html>";
     return html;
+}
+
+void deleteAllFiles(File dir) {
+    unsigned long lastDeleteTime = 0;
+    bool deleting = false;
+    File entry;
+
+    while (true) {
+        if (!deleting) {
+            entry = dir.openNextFile();
+            if (!entry) {
+                break; // No more files
+            }
+            if (!entry.isDirectory()) {
+                String fileName = String("/") + entry.name();
+                if (fileName.endsWith(".gpx") || fileName.endsWith(".csv")) {
+                    Serial.print("Deleting file: ");
+                    Serial.println(fileName);
+                    if (!SD.remove(fileName.c_str())) {
+                        Serial.print("Failed to delete file: ");
+                        Serial.println(fileName);
+                    } else {
+                        deleting = true;
+                        lastDeleteTime = millis();
+                    }
+                } else {
+                    Serial.print("Skipping file: ");
+                    Serial.println(fileName);
+                }
+            } else {
+                Serial.print("Skipping directory: ");
+                Serial.println(entry.name());
+            }
+            entry.close();
+        } else {
+            if (millis() - lastDeleteTime >= 1) {
+                deleting = false;
+            }
+        }
+    }
 }
 
 void initializeWebserver()
@@ -190,6 +235,14 @@ void initializeWebserver()
                       }
                   }
                   request->redirect("/"); });
+
+    // Route to handle delete all files
+    server.on("/deleteAll", HTTP_POST, [](AsyncWebServerRequest *request) {
+        File root = SD.open("/");
+        deleteAllFiles(root);
+        root.close();
+        request->redirect("/");
+    });
 
     ElegantOTA.begin(&server); // Start ElegantOTA
 

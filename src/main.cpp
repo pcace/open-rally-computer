@@ -23,8 +23,10 @@
 #include <memory.h>
 #include <saveTrackToSD.h>
 #include <webserver.h>
+#include <SD.h>
 #include <ElegantOTA.h>
 #include <voltage.h>
+#include <webserver.h>
 
 unsigned long previousMillis1s = 0;
 unsigned long previousMillisSaveInterval = 0;
@@ -50,6 +52,10 @@ void setup(void)
   initButtons();
 
   initializeSDCard();
+
+  // File root = SD.open("/");
+  // deleteAllFiles(root);
+  // root.close();
 
   initializeWifi();
 

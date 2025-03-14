@@ -113,8 +113,8 @@ void loadConfig() {
     preferences.getBytes("config", &memory.config, len);
 
     // Print the entire config
-    Serial.println("Config:");
-    dumpConfig();
+    // Serial.println("Config:");
+    // dumpConfig();
   }
   preferences.end(); // Close the Preferences library
 }

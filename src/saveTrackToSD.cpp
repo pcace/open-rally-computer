@@ -91,7 +91,7 @@ void initializeSDCard()
   state.sdMounted = true;
 
   // List all files and their content after successful mount
-  listDir(SD, "/", 0); // Set levels to 0 if you don't want to list files in subdirectories recursively
+  // listDir(SD, "/", 0); // Set levels to 0 if you don't want to list files in subdirectories recursively
 }
 
 void saveTrackToSD()
@@ -102,7 +102,6 @@ void saveTrackToSD()
 
   if (gpsFixExists && dateIsValid && timeIsValid)
   {
-
     char dateYear[5], dateMonth[3], dateDay[3], timeHours[3], timeMinutes[3], timeSeconds[3];
     sprintf(dateYear, "%04d", state.dateYear);
     sprintf(dateMonth, "%02d", state.dateMonth);
@@ -113,23 +112,31 @@ void saveTrackToSD()
 
     if (state.currentTrackFile == "")
     {
-
-      String filename = "/" + String(dateYear) + String(dateMonth) + String(dateDay) + "_" + String(timeHours) + String(timeMinutes) + String(timeSeconds) + ".csv";
+      String filename = "/" + String(dateYear) + String(dateMonth) + String(dateDay) + ".csv";
       state.currentTrackFile = filename.c_str();
-      File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_WRITE);
-      dataFile.print("date");
-      dataFile.print(";");
-      dataFile.print("time");
-      dataFile.print(";");
-      dataFile.print("lat");
-      dataFile.print(";");
-      dataFile.print("lon");
-      dataFile.print(";");
-      dataFile.print("alt");
-      dataFile.print(";");
-      dataFile.println("speed");
+      
+      // Check if file already exists
+      bool fileExists = SD.exists(state.currentTrackFile.c_str());
+      
+      File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_APPEND);
+      // Only write header if it's a new file
+      if (!fileExists && dataFile) 
+      {
+        dataFile.print("date");
+        dataFile.print(";");
+        dataFile.print("time");
+        dataFile.print(";");
+        dataFile.print("lat");
+        dataFile.print(";");
+        dataFile.print("lon");
+        dataFile.print(";");
+        dataFile.print("alt");
+        dataFile.print(";");
+        dataFile.println("speed");
+      }
       dataFile.close();
     }
+    
     File dataFile = SD.open(state.currentTrackFile.c_str(), FILE_APPEND);
     if (dataFile)
     {
@@ -144,8 +151,8 @@ void saveTrackToSD()
       dataFile.print(state.currentAltitude, 2);
       dataFile.print(";");
       dataFile.println(state.currentSpeed, 2);
+      dataFile.close();
     }
-    dataFile.close();
   }
 }
 
@@ -167,20 +174,50 @@ void saveTrackToGPX()
 
     if (state.currentGPXFile == "")
     {
-      String filename = "/" + String(dateYear) + String(dateMonth) + String(dateDay) + "_" + String(timeHours) + String(timeMinutes) + String(timeSeconds) + ".gpx";
+      String filename = "/" + String(dateYear) + String(dateMonth) + String(dateDay) + ".gpx";
       state.currentGPXFile = filename.c_str();
-      File gpxFile = SD.open(state.currentGPXFile.c_str(), FILE_WRITE);
-      // Write GPX header and metadata
-      gpxFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
-      gpxFile.println("<gpx xmlns=\"http://www.topografix.com/GPX/1/1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:wptx1=\"http://www.garmin.com/xmlschemas/WaypointExtension/v1\" xmlns:gpxtrx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xmlns:gpxtpx=\"http://www.garmin.com/xmlschemas/TrackPointExtension/v1\" xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xmlns:trp=\"http://www.garmin.com/xmlschemas/TripExtensions/v1\" xmlns:adv=\"http://www.garmin.com/xmlschemas/AdventuresExtensions/v1\" xmlns:prs=\"http://www.garmin.com/xmlschemas/PressureExtension/v1\" xmlns:tmd=\"http://www.garmin.com/xmlschemas/TripMetaDataExtensions/v1\" xmlns:vptm=\"http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensions/v1\" xmlns:ctx=\"http://www.garmin.com/xmlschemas/CreationTimeExtension/v1\" xmlns:gpxacc=\"http://www.garmin.com/xmlschemas/AccelerationExtension/v1\" xmlns:gpxpx=\"http://www.garmin.com/xmlschemas/PowerExtension/v1\" xmlns:vidx1=\"http://www.garmin.com/xmlschemas/VideoExtension/v1\" creator=\"Garmin Desktop App\" version=\"1.1\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/ActivityExtension/v1 http://www8.garmin.com/xmlschemas/ActivityExtensionv1.xsd http://www.garmin.com/xmlschemas/AdventuresExtensions/v1 http://www8.garmin.com/xmlschemas/AdventuresExtensionv1.xsd http://www.garmin.com/xmlschemas/PressureExtension/v1 http://www.garmin.com/xmlschemas/PressureExtensionv1.xsd http://www.garmin.com/xmlschemas/TripExtensions/v1 http://www.garmin.com/xmlschemas/TripExtensionsv1.xsd http://www.garmin.com/xmlschemas/TripMetaDataExtensions/v1 http://www.garmin.com/xmlschemas/TripMetaDataExtensionsv1.xsd http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensions/v1 http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensionsv1.xsd http://www.garmin.com/xmlschemas/CreationTimeExtension/v1 http://www.garmin.com/xmlschemas/CreationTimeExtensionsv1.xsd http://www.garmin.com/xmlschemas/AccelerationExtension/v1 http://www.garmin.com/xmlschemas/AccelerationExtensionv1.xsd http://www.garmin.com/xmlschemas/PowerExtension/v1 http://www.garmin.com/xmlschemas/PowerExtensionv1.xsd http://www.garmin.com/xmlschemas/VideoExtension/v1 http://www.garmin.com/xmlschemas/VideoExtensionv1.xsd\">");
-      gpxFile.println("<metadata>");
-      gpxFile.println("<name>" + filename + "</name>");
-      gpxFile.println("<desc>Track log generated by Open Rally Computer</desc>");
-      gpxFile.println("</metadata>");
-      gpxFile.println("<trk><name>Track Log</name><trkseg>");
-      intPosition = gpxFile.position();
-      gpxFile.println("</trkseg></trk></gpx>");
-      gpxFile.close();
+      
+      // Check if file already exists
+      bool fileExists = SD.exists(state.currentGPXFile.c_str());
+      
+      if (!fileExists) {
+        // Create new GPX file with headers
+        File gpxFile = SD.open(state.currentGPXFile.c_str(), FILE_WRITE);
+        // Write GPX header and metadata
+        gpxFile.println("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+        gpxFile.println("<gpx xmlns=\"http://www.topografix.com/GPX/1/1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:wptx1=\"http://www.garmin.com/xmlschemas/WaypointExtension/v1\" xmlns:gpxtrx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xmlns:gpxtpx=\"http://www.garmin.com/xmlschemas/TrackPointExtension/v1\" xmlns:gpxx=\"http://www.garmin.com/xmlschemas/GpxExtensions/v3\" xmlns:trp=\"http://www.garmin.com/xmlschemas/TripExtensions/v1\" xmlns:adv=\"http://www.garmin.com/xmlschemas/AdventuresExtensions/v1\" xmlns:prs=\"http://www.garmin.com/xmlschemas/PressureExtension/v1\" xmlns:tmd=\"http://www.garmin.com/xmlschemas/TripMetaDataExtensions/v1\" xmlns:vptm=\"http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensions/v1\" xmlns:ctx=\"http://www.garmin.com/xmlschemas/CreationTimeExtension/v1\" xmlns:gpxacc=\"http://www.garmin.com/xmlschemas/AccelerationExtension/v1\" xmlns:gpxpx=\"http://www.garmin.com/xmlschemas/PowerExtension/v1\" xmlns:vidx1=\"http://www.garmin.com/xmlschemas/VideoExtension/v1\" creator=\"Garmin Desktop App\" version=\"1.1\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/WaypointExtension/v1 http://www8.garmin.com/xmlschemas/WaypointExtensionv1.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www8.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/ActivityExtension/v1 http://www8.garmin.com/xmlschemas/ActivityExtensionv1.xsd http://www.garmin.com/xmlschemas/AdventuresExtensions/v1 http://www8.garmin.com/xmlschemas/AdventuresExtensionv1.xsd http://www.garmin.com/xmlschemas/PressureExtension/v1 http://www.garmin.com/xmlschemas/PressureExtensionv1.xsd http://www.garmin.com/xmlschemas/TripExtensions/v1 http://www.garmin.com/xmlschemas/TripExtensionsv1.xsd http://www.garmin.com/xmlschemas/TripMetaDataExtensions/v1 http://www.garmin.com/xmlschemas/TripMetaDataExtensionsv1.xsd http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensions/v1 http://www.garmin.com/xmlschemas/ViaPointTransportationModeExtensionsv1.xsd http://www.garmin.com/xmlschemas/CreationTimeExtension/v1 http://www.garmin.com/xmlschemas/CreationTimeExtensionsv1.xsd http://www.garmin.com/xmlschemas/AccelerationExtension/v1 http://www.garmin.com/xmlschemas/AccelerationExtensionv1.xsd http://www.garmin.com/xmlschemas/PowerExtension/v1 http://www.garmin.com/xmlschemas/PowerExtensionv1.xsd http://www.garmin.com/xmlschemas/VideoExtension/v1 http://www.garmin.com/xmlschemas/VideoExtensionv1.xsd\">");
+        gpxFile.println("<metadata>");
+        gpxFile.println("<name>" + filename + "</name>");
+        gpxFile.println("<desc>Track log generated by Open Rally Computer</desc>");
+        gpxFile.println("</metadata>");
+        gpxFile.println("<trk><name>Track Log</name><trkseg>");
+        intPosition = gpxFile.position();
+        gpxFile.println("</trkseg></trk></gpx>");
+        gpxFile.close();
+      } else {
+        // File exists, find the insertion point
+        File gpxFile = SD.open(state.currentGPXFile.c_str(), FILE_READ);
+        if (gpxFile) {
+          // Find position by seeking to end and backing up to find "</trkseg>"
+          gpxFile.seek(gpxFile.size() - 30); // Approximate position
+          char buffer[50];
+          int bytesRead = gpxFile.readBytes(buffer, sizeof(buffer) - 1);
+          buffer[bytesRead] = '\0';
+          
+          // Simple approach: find the last insertion point
+          String bufferStr = String(buffer);
+          int closingPos = bufferStr.indexOf("</trkseg>");
+          if (closingPos >= 0) {
+            // Calculate the actual file position
+            intPosition = gpxFile.size() - (bytesRead - closingPos);
+          } else {
+            // Fallback if tag not found
+            Serial.println("Warning: Could not find insertion point in GPX file");
+            intPosition = gpxFile.size() - 30; // Approximate
+          }
+          gpxFile.close();
+        }
+      }
     }
 
     // Open the file to append data

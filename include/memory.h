@@ -108,5 +108,5 @@ void initializeConfig();
 void resetConfig();
 void loadConfig();
 void saveConfig();
-void dumpConfig();
-void dumpTempConfig();
+// void dumpConfig();
+// void dumpTempConfig();
