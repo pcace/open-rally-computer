@@ -1,4 +1,3 @@
-
 #include <time.h>
 #include <WiFi.h>
 #include <AsyncTCP.h>
@@ -169,6 +168,31 @@ void initializeWebserver()
               {
                   String htmlContent = generateStatusHTML();
                   request->send(200, "text/html", htmlContent); });
+
+    // Route to return driving stats as JSON
+    server.on("/stats", HTTP_GET, [](AsyncWebServerRequest *request)
+              {
+                  String json = "{";
+                  json += "\"currentSpeed\":" + String(state.currentSpeed) + ",";
+                  json += "\"currentHeading\":" + String(state.currentHeading) + ",";
+                  json += "\"currentLatitude\":" + String(state.currentLatitude, 6) + ",";
+                  json += "\"currentLongitude\":" + String(state.currentLongitude, 6) + ",";
+                  json += "\"currentAltitude\":" + String(state.currentAltitude, 2) + ",";
+                  json += "\"gpsSatellites\":" + String(state.gpsSatellites) + ",";
+                  json += "\"gpsFix\":" + String(state.gpsFix) + ",";
+                  json += "\"gpsPrecision\":" + String(state.gpsPrecision) + ",";
+                  json += "\"currentTemperature\":" + String(state.currentTemperature) + ",";
+                  json += "\"isMoving\":" + String(state.isMoving ? "true" : "false") + ",";
+                  json += "\"average\":" + String(state.average) + ",";
+                  json += "\"timeHours\":" + String(state.timeHours) + ",";
+                  json += "\"timeMinutes\":" + String(state.timeMinutes) + ",";
+                  json += "\"timeSeconds\":" + String(state.timeSeconds) + ",";
+                  json += "\"tripPartial\":" + String(memory.config.tripPartial) + ",";
+                  json += "\"tripTotal\":" + String(memory.config.tripTotal) + ",";
+                  json += "\"maxSpeed\":" + String(memory.config.maxSpeed) + ",";
+                  json += "\"units\":" + String(memory.config.units);
+                  json += "}";
+                  request->send(200, "application/json", json); });
 
     // Serve files from the SD card
     server.serveStatic("/", SD, "/");
