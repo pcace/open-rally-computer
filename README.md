@@ -29,6 +29,35 @@ Some of its features are:
 - GPX Track Logging to SD Card
 - POI Saving to SD Card
 - Display 12V input voltage display
+- http endpoint for GPX Tracks and Saved POIs
+- http endpoint for querying driving stats
+- The GPX Track endpoint is available on route `/`. It is possible to download all saved tracks here.
+- The stats endpoint lists all current stats and returns a formatted JSON like this:
+  ```json
+  {
+    "currentSpeed": 45.2,
+    "currentHeading": 275.8,
+    "currentLatitude": 52.520008,
+    "currentLongitude": 13.404954,
+    "currentAltitude": 34.50,
+    "gpsSatellites": 8,
+    "gpsFix": 1,
+    "gpsPrecision": 2.1,
+    "currentTemperature": 23,
+    "isMoving": true,
+    "average": 42.7,
+    "timeHours": 14,
+    "timeMinutes": 32,
+    "timeSeconds": 45,
+    "tripPartial": 127.5,
+    "tripTotal": 1543.2,
+    "maxSpeed": 78.9,
+    "units": 0
+  }
+  ```
+
+**Note:** There is an addon project that utilizes the stats endpoint to operate an automatic chain oiler. You can find it here: [ChainOiler](https://github.com/pcace/ChainOiler)
+
 
 The main goal of this project is to achieve a widely used open-source device that can be improved over time by ourselves, the pilots behind the roadbook.
 
