@@ -2,8 +2,8 @@
 
 An open source tripmaster for navigation rallies
 
-![ORC](./img/orc2.png?raw=true "ORC")
-![ORC](./img/orc.png?raw=true "ORC")
+<img src="./img/orc2.png?raw=true" alt="ORC" width="300">
+<img src="./img/orc.png?raw=true" alt="ORC" width="300">
 
 (after 2000km abuse...)
 
