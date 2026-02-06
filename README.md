@@ -25,8 +25,8 @@ The main goal of this project is to achieve a widely used open-source device tha
 
 You can read a detailed writeup of the project here:
 
-- [English version](https://matto.io/open-sourcing-the-baja-pro/)
-- [Spanish version](https://matto.io/liberando-el-codigo-del-baja-pro/)
+- [English version](https://matto.io/posts/open-sourcing-the-baja-pro/)
+- [Spanish version](https://matto.io/posts/liberando-el-codigo-del-baja-pro/)
 
 ## Schematics and PCB
 
