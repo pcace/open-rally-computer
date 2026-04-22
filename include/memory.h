@@ -17,6 +17,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <string>
 
 // Define the data struct (various data types allowed)
 struct Configuration
@@ -99,7 +100,6 @@ struct TempConfig
   int dateDay;
   float voltage;
   bool sdMounted;
-
 };
 
 extern TempConfig state;

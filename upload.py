@@ -6,11 +6,11 @@
 #
 # extra_scripts = platformio_upload.py
 # upload_protocol = custom
-# upload_url = <your upload URL>
+# custom_upload_url = <your upload URL>
 # 
 # An example of an upload URL:
-#                upload_url = http://192.168.1.123/update 
-# also possible: upload_url = http://domainname/update
+#                custom_upload_url = http://192.168.1.123/update 
+# also possible: custom_upload_url = http://domainname/update
 
 import requests
 import hashlib
@@ -32,7 +32,7 @@ def on_upload(source, target, env):
     firmware_path = str(source[0])
 
     auth = None
-    upload_url = env.GetProjectOption('upload_url')
+    upload_url = env.GetProjectOption('custom_upload_url')
 
     with open(firmware_path, 'rb') as firmware:
         md5 = hashlib.md5(firmware.read()).hexdigest()

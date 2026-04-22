@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <display.h>
 #include <screens/splash.h>
 #include <screens/odometer.h>
 #include <screens/speed.h>
-#include <screens/time.h>
+#include <screens/time_screen.h>
 #include <screens/heading.h>
 #include <screens/settings.h>
 #include <screens/input.h>
@@ -103,8 +102,7 @@ void drawScreen(int index)
 
 void initBacklight()
 {
-  ledcSetup(0, 10000, 8); // LED channel, frequency, resolution
-  ledcAttachPin(PIN_BACKLIGHT, 0);
+  ledcAttach(PIN_BACKLIGHT, 10000, 8);
 
   setBacklight(memory.config.backlight);
 }
