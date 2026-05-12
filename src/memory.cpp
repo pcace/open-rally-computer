@@ -50,7 +50,6 @@ void initializeConfig()
   memory.config.flipScreen = false;
   memory.config.memoryInitialized = true;
   memory.config.saveInterval = 5;
-  memory.config.voltageDivider = 11.25;
   memory.config.trackingEnabled = true;
 
   state.currentScreen = 0;
@@ -91,7 +90,6 @@ void initializeConfig()
   state.dateYear = 0;
   state.dateMonth = 0;
   state.dateDay = 0;
-  state.voltage = 0;
 }
 
 void resetConfig()
@@ -166,10 +164,7 @@ void dumpConfig()
   Serial.println(memory.config.memoryInitialized);
   Serial.print(F("memory.config.saveInterval: "));
   Serial.println(memory.config.saveInterval);
-  Serial.print(F("memory.config.voltage: "));
-  Serial.println(memory.config.voltageDivider);
 }
-
 void dumpTempConfig()
 {
   Serial.println(F("=========================================================================="));
@@ -243,6 +238,4 @@ void dumpTempConfig()
   Serial.println(state.currentTrackFile.c_str());
   Serial.print(F("state.currentTrackFile: "));
   Serial.println(state.currentGPXFile.c_str());
-  Serial.print(F("state.voltage: "));
-  Serial.println(state.voltage);
 }

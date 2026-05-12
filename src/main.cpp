@@ -24,7 +24,7 @@
 #include <saveTrackToSD.h>
 #include <webserver.h>
 #include <ElegantOTA.h>
-#include <voltage.h>
+
 
 unsigned long previousMillis1s = 0;
 unsigned long previousMillisSaveInterval = 0;
@@ -96,6 +96,5 @@ void loop(void)
       saveTrackToSD();
       saveTrackToGPX();
     }
-    updateVoltageValues();
   }
 }

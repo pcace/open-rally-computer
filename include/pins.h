@@ -39,4 +39,3 @@
 #define SD_MISO_PIN           19
 
 
-#define VOLTAGE_PIN           34

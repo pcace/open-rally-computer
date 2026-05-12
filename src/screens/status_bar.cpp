@@ -118,12 +118,6 @@ void drawStatusBar()
     u8g2->setFont(u8g2_font_torussansbold8_8r);
     u8g2->drawStr(40, 8, currentTime.c_str());
 
-    // -- Voltage
-    String currentVoltage;
-    currentVoltage = String(state.voltage) + "V"; // The "-" is a trick to get the perfect space for the "º"
-    u8g2->setFont(u8g2_font_blipfest_07_tr);
-    u8g2->drawStr(85, 7, currentVoltage.c_str());
-
     // Return draw color to normality
     u8g2->setDrawColor(1);
   }

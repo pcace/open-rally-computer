@@ -44,7 +44,6 @@ struct Configuration
   unsigned int hour;
   unsigned int minute;
   unsigned int second;
-  float voltageDivider;
   bool trackingEnabled; // Whether GPS track is written to SD card
 };
 
@@ -99,7 +98,6 @@ struct TempConfig
   int dateYear;
   int dateMonth;
   int dateDay;
-  float voltage;
   bool sdMounted;
 };
 
