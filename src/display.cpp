@@ -102,7 +102,8 @@ void drawScreen(int index)
 
 void initBacklight()
 {
-  ledcAttach(PIN_BACKLIGHT, 10000, 8);
+  ledcSetup(0, 10000, 8);
+  ledcAttachPin(PIN_BACKLIGHT, 0);
 
   setBacklight(memory.config.backlight);
 }
