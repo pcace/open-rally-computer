@@ -14,32 +14,42 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 #pragma once
 
 #include <Arduino.h>
+#include <string>
 
 // Define the data struct (various data types allowed)
-struct Configuration {
+struct Configuration
+{
   unsigned long avgAccumulator; // Speed samples added
   unsigned int avgSamples;      // Number of speed samples to calculate average
   unsigned int language;
-  float declAngle;              // In degrees
-  float tripPartial;            // In kilometers
-  float tripTotal;              // In kilometers
-  unsigned long tripTime;       // In seconds
-  unsigned int maxSpeed;        // In km/h
+  float declAngle;        // In degrees
+  float tripPartial;      // In kilometers
+  float tripTotal;        // In kilometers
+  unsigned long tripTime; // In seconds
+  unsigned int maxSpeed;  // In km/h
   unsigned int units;
-  int timeZone;                 // Between -12 and +14
-  unsigned int backlight;       // Between 0 and 10
+  int timeZone;           // Between -12 and +14
+  unsigned int backlight; // Between 0 and 10
   unsigned int precision;
   bool quickViewEnabled;
   bool flipScreen;
-  bool memoryInitialized;       // To know if the memory has been initialized for the first time
+  bool memoryInitialized; // To know if the memory has been initialized for the first time
+  unsigned int saveInterval;
+  unsigned int year;
+  unsigned int month;
+  unsigned int day;
+  unsigned int hour;
+  unsigned int minute;
+  unsigned int second;
+  float voltageDivider;
 };
 
 // Define a struct joining Configuration to an array of bytes to be stored
-union ConfigI2C {
+union ConfigI2C
+{
   Configuration config;
   uint8_t I2CPacket[sizeof(Configuration)];
 };
@@ -47,7 +57,8 @@ union ConfigI2C {
 extern ConfigI2C memory; // Data to be written in memory
 
 // Storage for temporary config values
-struct TempConfig {
+struct TempConfig
+{
   int currentScreen;
   int menuCurrentSelection;
   int menuCurrentValue;
@@ -64,7 +75,7 @@ struct TempConfig {
   double currentLatitude;
   double currentLongitude;
   int gpsSatellites;
-  int currentAltitude;
+  double currentAltitude;
   int timeHours;
   int timeMinutes;
   int timeSeconds;
@@ -81,6 +92,14 @@ struct TempConfig {
   int quickViewScreen;
   int currentUpdateStep;
   int updatingFirmware;
+  std::string currentTrackFile;
+  std::string currentGPXFile;
+  int currentTrackDataIndex;
+  int dateYear;
+  int dateMonth;
+  int dateDay;
+  float voltage;
+  bool sdMounted;
 };
 
 extern TempConfig state;

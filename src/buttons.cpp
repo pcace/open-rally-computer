@@ -24,9 +24,9 @@
 #include <pins.h>
 #include <memory.h>
 #include <screens.h>
-#include <ota.h>
 #include <menu.h>
 #include <display.h>
+#include <saveTrackToSD.h>
 
 PushButton button_select = PushButton(PIN_BUTTON_SELECT, ENABLE_INTERNAL_PULLUP);
 PushButton button_next = PushButton(PIN_BUTTON_NEXT, ENABLE_INTERNAL_PULLUP);
@@ -63,6 +63,9 @@ void onButtonSelectRelease(Button& btn, uint16_t duration) {
       state.currentScreen = SCREEN_HEADING;
       break;
     case SCREEN_HEADING:
+      state.currentScreen = SCREEN_TRACK;
+      break;
+    case SCREEN_TRACK:
       state.currentScreen = SCREEN_ODOMETER;
       break;
     case SCREEN_MENU:
@@ -73,28 +76,6 @@ void onButtonSelectRelease(Button& btn, uint16_t duration) {
       break;
     case SCREEN_LANGUAGE:
       state.menuLastCommand = U8X8_MSG_GPIO_MENU_SELECT;
-      break;
-    case SCREEN_UPDATE:
-      if (state.updatingFirmware == 1)
-        return void();
-
-      switch (state.currentUpdateStep) {
-        case UPDATE_START:
-          checkLatestVersion();
-          break;
-        case UPDATE_CONN_ERROR:
-        case UPDATE_UPGR_ERROR:
-        case UPDATE_FINISHED:
-          state.currentUpdateStep = UPDATE_START;
-
-          // Go back to menu
-          state.currentScreen = SCREEN_MENU;
-          break;
-
-        default:
-          checkLatestVersion();
-          break;
-      }
       break;
     case SCREEN_SPLASH:
       // Go back to menu
@@ -109,6 +90,7 @@ void onButtonSelectPress(Button& btn) {
     case SCREEN_SPEED:
     case SCREEN_TIME:
     case SCREEN_HEADING:
+    case SCREEN_TRACK:
       state.selectButtonPressedSince = millis();
       break;
   }
@@ -130,6 +112,9 @@ void onButtonSelectHold(Button& btn, uint16_t duration) {
     case SCREEN_HEADING:
       state.currentScreen = SCREEN_MENU;
       break;
+    case SCREEN_TRACK:
+      savePOIToGPX();      
+      break;
     case SCREEN_MENU:
       state.currentScreen = SCREEN_ODOMETER;
       state.menuLastCommand = U8X8_MSG_GPIO_MENU_HOME;
@@ -145,13 +130,6 @@ void onButtonSelectHold(Button& btn, uint16_t duration) {
     case SCREEN_GPS:
       state.currentScreen = SCREEN_ODOMETER;
       state.menuLastCommand = U8X8_MSG_GPIO_MENU_HOME;
-      break;
-    case SCREEN_UPDATE:
-      if (state.updatingFirmware == 1)
-        return;
-
-      state.menuLastCommand = U8X8_MSG_GPIO_MENU_HOME;
-      state.currentScreen = SCREEN_MENU;
       break;
   }
 }
@@ -172,6 +150,7 @@ void onButtonNextPress(Button& btn) {
     case SCREEN_SPEED:
     case SCREEN_TIME:
     case SCREEN_HEADING:
+    case SCREEN_TRACK:
       // QuickView function for these screens
       if (memory.config.quickViewEnabled) {
         state.quickViewScreen = state.currentScreen;
@@ -229,6 +208,7 @@ void onButtonPrevPress(Button& btn) {
     case SCREEN_SPEED:
     case SCREEN_TIME:
     case SCREEN_HEADING:
+    case SCREEN_TRACK:
       // QuickView function for these screens
       if (memory.config.quickViewEnabled) {
         state.quickViewScreen = state.currentScreen;
@@ -275,7 +255,7 @@ void onButtonPrevRelease(Button& btn, uint16_t duration) {
 void initButtons() {
   pinMode(PIN_BUTTON_PREV, INPUT_PULLUP);
   pinMode(PIN_BUTTON_SELECT, INPUT_PULLUP);
-  pinMode(PIN_BUTTON_NEXT, INPUT_PULLUP); // This will not work. This pin does not have integrated pullup (https://github.com/espressif/arduino-esp32/issues/316)
+  pinMode(PIN_BUTTON_NEXT, INPUT_PULLUP);
 
   button_select.onPress(onButtonSelectPress);
   button_select.onRelease(onButtonSelectRelease);

@@ -14,8 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
-#include <screens/time.h>
+#include <screens/time_screen.h>
 #include <screens/status_bar.h>
 #include <Arduino.h>
 #include <display.h>
@@ -24,7 +23,8 @@
 #include <memory.h>
 #include <language.h>
 
-void drawTimeLayout() {
+void drawTimeLayout()
+{
   String tripTimeHHMM = secondsToHHMM(memory.config.tripTime);
   String tripTimeSS = secondsToSS(memory.config.tripTime);
 

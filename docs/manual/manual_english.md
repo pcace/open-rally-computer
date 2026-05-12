@@ -81,6 +81,14 @@ For reasons inherent to the operation of the GPS system, if the **Open Rally Com
 It is for this reason that it is advisable to always turn on the **Open Rally Computer** a few minutes before starting the tour.
 That said, the **Open Rally Computer** is capable of obtaining positioning information from both the constellation of **GPS** satellites as well as **Glonass** and **Galileo**, which allows the satellite reception wait time is quite low and the accuracy is higher than that of other devices.
 
+## Track recording and retrieval
+
+The **Open Rally Computer** records the track of the route you are taking in a file on the SD card. This file is in **GPX** format, which is a standard format for storing GPS data as well as a csv with lat / lon. It will always and automatically record the current position as soon as it has a gps fix. To save and individual position (POI), see **track** page. 
+
+To retrieve the track connect to the Wifi the ORC creates and go to the IP address of the device. You will see a list of all the tracks recorded. You can download and delete them from there. (see webserver.cpp for PW) The IP address is 192.168.4.1
+
+![Webserver](../../img/webserver.png?raw=true "Webserver")
+
 ## Screens
 
 There are several screens that show useful information when navigating using a roadbook. The distribution of information within the screens and the way in which that the data are grouped is designed to facilitate the pilot reading the data simply sight and with minimal effort.
@@ -96,8 +104,11 @@ At the top of all screens (except for the configuration screens) there is a bar 
 
 In this bar you can see some useful information:
 - In the left corner you can see a disc. If the disc is spinning it means that the GPS module is searching for satellites to obtain your location. Once you have a reliable location, the disk icon will change to bars indicating the quality of the signal.
+- next to the disk icon you can see a SD card icon. If the icon is crossed out, it means that the SD card is not inserted or is not recognized. If the icon is not crossed out, it means that the SD card is correctly inserted and recognized.
 - In the center is the current time. The time values for the clock ​​are obtained from the GPS module, so it has great precision. This implies that until there is no GPS signal, the time will not be correct. **IMPORTANT:** Remember to set the time zone of the place where you are (_see time zone configuration section_).
+- next to the time you can see the voltage of the battery of the powersource (so probably ~12V)
 - In the right corner you can see the number of satellites of which the GPS module receives signal. The minimum required to obtain a valid location is **4 satellites**, although in this case more is better.
+
 
 ### Odometer
 
@@ -143,6 +154,18 @@ In this screen, the remote control buttons fulfill the following functions:
 - **Up**: If the QuickView functionality is enabled, displays the Odometer screen while holding down the button.
 - **Down**: If QuickView functionality is enabled, displays the Odometer screen while holding down the button.
 - **Selection**: If pressed briefly, it switches to the next screen. Long press accesses the configuration screen.
+![Compass page with 2d Representation](../../img/compass.png?raw=true "Compass page with 2d Representation")
+
+### Position
+
+Shows the current position in Latitude / Longitude / Altitude.
+
+**Controls**
+In this screen, the remote control buttons fulfill the following functions:
+- **Up**: If the QuickView functionality is enabled, displays the Odometer screen while holding down the button.
+- **Down**: If QuickView functionality is enabled, displays the Odometer screen while holding down the button.
+- **Selection**: If pressed briefly, it switches to the next screen. Long press saves the current location to the SD card as POI.
+
 
 ## Settings
 
