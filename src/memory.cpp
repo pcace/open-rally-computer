@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <memory.h>
 #include <Wire.h>
 #include <FRAM_MB85RC_I2C.h>
@@ -33,7 +32,8 @@ FRAM_MB85RC_I2C fram_memory(0x50, false, 0, 4); // [chipAddress, writeProtectEna
 ConfigI2C memory = {};
 TempConfig state = {};
 
-void initializeConfig() {
+void initializeConfig()
+{
   memory.config.avgAccumulator = 0;
   memory.config.avgSamples = 0;
   memory.config.language = LANG_ENGLISH;
@@ -51,6 +51,7 @@ void initializeConfig() {
   memory.config.memoryInitialized = true;
   memory.config.saveInterval = 5;
   memory.config.voltageDivider = 11.25;
+  memory.config.trackingEnabled = true;
 
   state.currentScreen = 0;
   state.menuCurrentSelection = 1;
@@ -91,23 +92,27 @@ void initializeConfig() {
   state.dateMonth = 0;
   state.dateDay = 0;
   state.voltage = 0;
-
 }
 
-void resetConfig() {
+void resetConfig()
+{
   initializeConfig();
   saveConfig();
 }
 
-void loadConfig() {
-  preferences.begin("tripcounter", true); // Start the Preferences library in RO-mode
+void loadConfig()
+{
+  preferences.begin("tripcounter", true);            // Start the Preferences library in RO-mode
   size_t len = preferences.getBytesLength("config"); // Get the length of the config data
-  if (len != sizeof(Configuration)) {
+  if (len != sizeof(Configuration))
+  {
     // Memory has not been initialized. Setting memory structure...
     Serial.println("Memory has not been initialized. Setting memory structure...");
     resetConfig();
     Serial.println("Reset performed - array loaded with initial memory");
-  } else {
+  }
+  else
+  {
     // Read the config from flash
     Serial.println("Reading the config from flash");
     preferences.getBytes("config", &memory.config, len);
@@ -119,13 +124,15 @@ void loadConfig() {
   preferences.end(); // Close the Preferences library
 }
 
-void saveConfig() {
-  preferences.begin("tripcounter", false); // Start the Preferences library in RW-mode
+void saveConfig()
+{
+  preferences.begin("tripcounter", false);                               // Start the Preferences library in RW-mode
   preferences.putBytes("config", &memory.config, sizeof(Configuration)); // Write the config to flash
-  preferences.end(); // Close the Preferences library
+  preferences.end();                                                     // Close the Preferences library
 }
 
-void dumpConfig() {
+void dumpConfig()
+{
   Serial.println(F("=========================================================================="));
   Serial.print(F("memory.config.avgAccumulator: "));
   Serial.println(memory.config.avgAccumulator);
@@ -163,7 +170,8 @@ void dumpConfig() {
   Serial.println(memory.config.voltageDivider);
 }
 
-void dumpTempConfig() {
+void dumpTempConfig()
+{
   Serial.println(F("=========================================================================="));
   Serial.print(F("state.currentScreen: "));
   Serial.println(state.currentScreen);

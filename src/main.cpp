@@ -90,9 +90,12 @@ void loop(void)
   if (currentMillis - previousMillisSaveInterval > memory.config.saveInterval * 1000)
   {
     previousMillisSaveInterval = currentMillis;
-    // save gps Data to SD Card
-    saveTrackToSD();
-    saveTrackToGPX();
+    // Save GPS data to SD card only while moving and tracking is enabled
+    if (state.isMoving && memory.config.trackingEnabled)
+    {
+      saveTrackToSD();
+      saveTrackToGPX();
+    }
     updateVoltageValues();
   }
 }

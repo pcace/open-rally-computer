@@ -45,6 +45,7 @@ struct Configuration
   unsigned int minute;
   unsigned int second;
   float voltageDivider;
+  bool trackingEnabled; // Whether GPS track is written to SD card
 };
 
 // Define a struct joining Configuration to an array of bytes to be stored

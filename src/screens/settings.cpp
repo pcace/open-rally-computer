@@ -155,6 +155,29 @@ void drawSettingsLayout()
     state.currentScreen = SCREEN_GPS;
     break;
 
+  case MENU_TRACKING:
+    tmp_result = u8g2->userInterfaceMessage(
+        get_string(memory.config.language, STR_TRACKING),        // Title 1
+        get_string(memory.config.language, STR_TRACKING_TITLE1), // Title 2
+        get_string(memory.config.language, STR_TRACKING_TITLE2), // Title 3
+        get_string(memory.config.language, STR_SURE_BUTTONS));   // Buttons " No \n Yes "
+
+    if (tmp_result == 1)
+    {
+      memory.config.trackingEnabled = false;
+      finalizeGPXFile(); // Close any open track file
+      state.currentTrackFile = "";
+      saveConfig();
+      state.currentScreen = SCREEN_ODOMETER;
+    }
+    else if (tmp_result == 2)
+    {
+      memory.config.trackingEnabled = true;
+      saveConfig();
+      state.currentScreen = SCREEN_ODOMETER;
+    }
+    break;
+
     // case MENU_TRACK:
     //   state.currentScreen = SCREEN_TRACK;
     //   break;
