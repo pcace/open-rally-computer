@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 #include <screens/gps.h>
 #include <display.h>
 #include <memory.h>
@@ -23,25 +22,22 @@
 #include <utils.h>
 #include <str_index.h>
 
-
-void drawTrackLayout() {
+void drawTrackLayout()
+{
 
   // Draw status bar
   drawStatusBar();
 
   // Draw Lat/Lon
   u8g2->setFont(u8g2_font_7x13B_mr);
-String latitudeStr = String(get_string(memory.config.language, STR_LAT_SHRT)) + ": " + String(state.currentLatitude, 6);
-u8g2->drawStr(0, 21, latitudeStr.c_str());
+  String latitudeStr = String(get_string(memory.config.language, STR_LAT_SHRT)) + ": " + String(state.currentLatitude, 6);
+  u8g2->drawStr(0, 21, latitudeStr.c_str());
 
-String longitudeStr = String(get_string(memory.config.language, STR_LON_SHRT)) + ": " + String(state.currentLongitude, 6);
-u8g2->drawStr(0, 35, longitudeStr.c_str());
+  String longitudeStr = String(get_string(memory.config.language, STR_LON_SHRT)) + ": " + String(state.currentLongitude, 6);
+  u8g2->drawStr(0, 35, longitudeStr.c_str());
 
-String altitudeStr = String(get_string(memory.config.language, STR_ALT_SHRT)) + ": " + String(state.currentAltitude, 6);
-u8g2->drawStr(0, 49, altitudeStr.c_str());
-
-
-
+  String altitudeStr = String(get_string(memory.config.language, STR_ALT_SHRT)) + ": " + String(state.currentAltitude, 6);
+  u8g2->drawStr(0, 49, altitudeStr.c_str());
 
   // Draw titles
   // u8g2->setFont(u8g2_font_4x6_tr);
