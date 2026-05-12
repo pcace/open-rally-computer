@@ -79,7 +79,11 @@ void loop(void)
     updateGpsValues();
     // updateTemperature();
 
-    saveConfig(); // Save all to FRAM / FLASH
+    if (!state.alreadySaved)
+    {
+      saveConfig(); // Save to FRAM / FLASH only when data has changed
+      state.alreadySaved = true;
+    }
   }
 
   // Tasks that occur every memory.saveInterval seconds

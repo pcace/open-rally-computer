@@ -109,10 +109,10 @@ void pollGpsModule()
   {
     gps.encode(SerialGPS.read());
 
-    //DEBUG GPS RAW Data
-    // char c = SerialGPS.read();
-    // gps.encode(c);
-    // Serial.print(c); // Log the raw GPS data character
+    // DEBUG GPS RAW Data
+    //  char c = SerialGPS.read();
+    //  gps.encode(c);
+    //  Serial.print(c); // Log the raw GPS data character
   }
 }
 
@@ -179,6 +179,7 @@ void updateGpsValues()
   {
     previousSeconds = state.timeSeconds;
     memory.config.tripTime++;
+    state.alreadySaved = false; // Mark config as dirty so saveConfig() runs
   }
 
   if (gps.speed.isValid() && state.gpsPrecision < 500 && state.gpsFix)
